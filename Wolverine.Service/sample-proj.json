@@ -1,0 +1,67 @@
+{
+  "Title": "Untitled-1",
+  "Description": "This is a sample project",
+  "UnsortedGroup": {
+    "Title": "Unsorted",
+    "Description": "This is an unsorted collection of cards. Sort them as you wish.",
+    "Cards": [
+      {
+        "Title": "Save",
+        "Description": "Save all the changes made to the document to the hard disk."
+      },
+      {
+        "Title": "New",
+        "Description": "Create a new document - an empty file."
+      },
+      {
+        "Title": "Save As",
+        "Description": "Save a duplicate copy of the document."
+      },
+      {
+        "Title": "Open",
+        "Description": "Open an existing file."
+      },
+      {
+        "Title": "Cut",
+        "Description": "Cut the selection and put it on the clipboard."
+      },
+      {
+        "Title": "Copy",
+        "Description": "Copy the selection and put it on the clipboard."
+      },
+      {
+        "Title": "Paste",
+        "Description": "Paste data from the clipboard to the current document."
+      },
+      {
+        "Title": "Find",
+        "Description": "Search for texts and objects."
+      },
+      {
+        "Title": "Close",
+        "Description": "Close the existing document."
+      },
+      {
+        "Title": "Settings",
+        "Description": "Configure the settings of the application."
+      }
+    ]
+  },
+  "SortedGroups": [
+    {
+      "Title": "File",
+      "Description": "The File menu.",
+      "Cards": []
+    },
+    {
+      "Title": "Edit",
+      "Description": "The Edit menu.",
+      "Cards": []
+    },
+    {
+      "Title": "Format",
+      "Description": "The Format menu.",
+      "Cards": []
+    }
+  ]
+}

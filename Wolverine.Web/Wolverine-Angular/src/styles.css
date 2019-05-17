@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+.field-with-default-value {
+    border-width: 0px 0px 1px 0px;
+    border-radius: 0px;
+    margin: 0px 0px 3px 0px;
+}
+
+.no-left-margin {
+    margin-left: 0px; 
+}
