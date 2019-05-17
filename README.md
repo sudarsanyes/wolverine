@@ -1,11 +1,9 @@
-# wolverine
+# Wolverine
 Card Sorting Tool
 
 ### Getting Started
 To be able to build and run the code, you will need the following. 
-1. Visual Studio 2019 with the following workloads. 
-- ASP.NET & Web Development.
-- Windows .NET Desktop Development. 
+1. Visual Studio 2019 with the workloads: ASP .NET & Web Development and Windows .NET Desktop Development. 
 2. Visual Studio Code. 
 3. Internet connectivity. 
 
