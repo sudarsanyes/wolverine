@@ -16,60 +16,60 @@ namespace Wolverine.Service.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity("Wolverine.Card", b =>
+            modelBuilder.Entity("Wolverine.Core.Card", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("GroupID");
+                    b.Property<string>("GroupId");
 
                     b.Property<int>("Order");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("GroupID");
+                    b.HasIndex("GroupId");
 
                     b.ToTable("Cards");
                 });
 
             modelBuilder.Entity("Wolverine.Core.Group", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("ProjectID");
+                    b.Property<bool>("IsUnsorted");
+
+                    b.Property<string>("ProjectId");
 
                     b.Property<string>("Title");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ProjectID");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("Wolverine.Core.Project", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Author");
 
                     b.Property<DateTimeOffset>("CreationDate");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Name");
 
-                    b.Property<string>("UnsortedGroupID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UnsortedGroupID");
+                    b.HasKey("Id");
 
                     b.ToTable("Projects");
                 });
@@ -79,45 +79,42 @@ namespace Wolverine.Service.Migrations
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Comments");
+
                     b.Property<string>("Participant");
 
-                    b.Property<string>("ProjectID");
+                    b.Property<string>("ProjectId");
 
-                    b.Property<DateTimeOffset>("SessionDate");
+                    b.Property<DateTimeOffset>("SessionInstance");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProjectID");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("SortSessions");
                 });
 
-            modelBuilder.Entity("Wolverine.Card", b =>
+            modelBuilder.Entity("Wolverine.Core.Card", b =>
                 {
                     b.HasOne("Wolverine.Core.Group")
                         .WithMany("Cards")
-                        .HasForeignKey("GroupID");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Wolverine.Core.Group", b =>
                 {
                     b.HasOne("Wolverine.Core.Project")
-                        .WithMany("DefaultGroups")
-                        .HasForeignKey("ProjectID");
-                });
-
-            modelBuilder.Entity("Wolverine.Core.Project", b =>
-                {
-                    b.HasOne("Wolverine.Core.Group", "UnsortedGroup")
-                        .WithMany()
-                        .HasForeignKey("UnsortedGroupID");
+                        .WithMany("Groups")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Wolverine.Core.SortSession", b =>
                 {
                     b.HasOne("Wolverine.Core.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectID");
+                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

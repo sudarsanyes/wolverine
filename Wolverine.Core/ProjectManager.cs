@@ -15,28 +15,43 @@ namespace Wolverine.Core
             storage = storageManager;
         }
 
-        public Project Project { get; private set; }
+        public SimplifiedProject Project { get; private set; }
 
-        public Project Load(string id)
+        public SimplifiedProject Load(string id)
         {
-            Project = storage.Load(id);
-            return Project;
+            var project = storage.Load(id);
+            return new SimplifiedProject(project);
+        }
+
+        public Project LoadProject(string id)
+        {
+            return storage.Load(id);
         }
 
         public string LoadAsString(string id)
         {
-            Project = storage.Load(id);
-            return storage.LoadAsString(id);
+            var project = storage.Load(id);
+            return new SimplifiedProject(project).AsJson();
         }
 
-        public bool Save(Project project)
+        public bool Save(SimplifiedProject project)
         {
-            return storage.Save(project);
+            //var existingProject = LoadProject(project.Id);
+            //if (existingProject != null)
+            //{
+            //    existingProject = project.ToProject();
+            //}
+            return storage.Save(project.ToProject());
         }
 
         public string Create(string name)
         {
             return storage.Create(name);
+        }
+
+        public bool Delete(string id)
+        {
+            return storage.Delete(id);
         }
     }
 }

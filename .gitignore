@@ -1,2 +1,10 @@
 /.vs/*
 /.vscode/*
+Wolverine.Web/Wolverine-Angular/node_modules/*
+Wolverine.Core/bin/*
+Wolverine.Core/obj/*
+Wolverine.Service/*.db
+Wolverine.Service/bin/*
+Wolverine.Service/obj/*
+Wolverine/bin/*
+Wolverine/obj/*

@@ -10,8 +10,8 @@ export class Project {
     name: string;
     author: string;
     creationDate: Date;
-    unsortedGroup: Group;
     defaultGroups: Group[];
+    unsortedGroup: Group;
   }
   
   export class Group {

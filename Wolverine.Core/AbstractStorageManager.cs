@@ -13,5 +13,7 @@ namespace Wolverine.Core
         public abstract string LoadAsString(string id);
 
         public abstract bool Save(Project project);
+
+        public abstract bool Delete(string id);
     }
 }

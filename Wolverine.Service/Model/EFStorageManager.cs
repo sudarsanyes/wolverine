@@ -18,7 +18,7 @@ namespace Wolverine.Service.Model
                 newProject.Name = name;
                 dbContext.Projects.Add(newProject);
                 dbContext.SaveChanges();
-                return newProject.ID;
+                return newProject.Id.ToString();
             }
         }
 
@@ -26,7 +26,7 @@ namespace Wolverine.Service.Model
         {
             using (var dbContext = new ProjectContext())
             {
-                var project = dbContext.Projects.Include("DefaultGroups.Cards").Include("UnsortedGroup.Cards").FirstOrDefault(x => x.ID == id);
+                var project = dbContext.Projects.Include("Groups.Cards").FirstOrDefault(x => x.Id == id);
                 return project;
             }
         }
@@ -35,8 +35,8 @@ namespace Wolverine.Service.Model
         {
             using (var dbContext = new ProjectContext())
             {
-                var project = dbContext.Projects.Include("DefaultGroups.Cards").Include("UnsortedGroup.Cards").FirstOrDefault(x => x.ID == id);
-                return project.ProjectAsJson();
+                var project = dbContext.Projects.Include("Groups.Cards").FirstOrDefault(x => x.Id == id);
+                return project.AsJson();
             }
         }
 
@@ -45,15 +45,31 @@ namespace Wolverine.Service.Model
             var projectData = JsonConvert.SerializeObject(project);
             using (var dbContext = new ProjectContext())
             {
-                var existingProject = dbContext.Projects.FirstOrDefault(x => x.Name == project.Name);
+                var existingProject = dbContext.Projects.Include("Groups.Cards").FirstOrDefault(x => x.Name == project.Name);
                 if (existingProject == null)
                 {
                     dbContext.Add(project);
+                    dbContext.SaveChanges();
                 }
                 else
                 {
                     dbContext.Remove(existingProject);
+                    dbContext.SaveChanges();
                     dbContext.Add(project);
+                    dbContext.SaveChanges();
+                }
+            }
+            return true;
+        }
+
+        public override bool Delete(string id)
+        {
+            using (var dbContext = new ProjectContext())
+            {
+                var existingProject = dbContext.Projects.FirstOrDefault(x => x.Id == id);
+                if (existingProject != null)
+                {
+                    dbContext.Projects.Remove(existingProject);
                 }
                 dbContext.SaveChanges();
             }

@@ -17,7 +17,7 @@ export class ProjectService {
         return this.http.get("https://localhost:44314/api/projects/create/" + name, { responseType: 'text' });
     }
 
-    public save(projectData: string) { 
-        return true;
+    public save(project: Project) { 
+        return this.http.post("https://localhost:44314/api/projects/upload/", project);
     }
 }

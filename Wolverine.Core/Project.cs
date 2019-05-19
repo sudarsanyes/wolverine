@@ -2,32 +2,41 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace Wolverine.Core
 {
-    public class Project : INotifyPropertyChanged
+    public class Project
     {
         public Project()
         {
-            ID = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
             CreationDate = DateTimeOffset.Now;
-            DefaultGroups = new ObservableCollection<Group>();
+            Groups = new ObservableCollection<Group>();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public static Project Default
         {
             get
             {
                 var defaultProject = new Project();
-                defaultProject.Author = "Unknown Author";
+                defaultProject.Author = null;
+                var unsortedGroup = new Group()
+                {
+                    Title = "Unsorted Group",
+                    Description = "You add cards here which the participants will sort.", 
+                    IsUnsorted = true
+                };
+                unsortedGroup.Cards.Add(Card.Default);
                 var group1 = new Group()
                 {
                     Title = "Sorted Group-1",
                     Description = "You will sort the cards under this group.", 
                 };
+                group1.Cards.Add(Card.Default);
                 var group2 = new Group()
                 {
                     Title = "Sorted Group-2",
@@ -38,76 +47,83 @@ namespace Wolverine.Core
                     Title = "Sorted Group-3",
                     Description = "You may sort the cards here as well."
                 };
-                group1.Cards.Add(Card.Default);
-                defaultProject.DefaultGroups.Add(group1);
-                defaultProject.DefaultGroups.Add(group2);
-                defaultProject.DefaultGroups.Add(group3);
-                defaultProject.UnsortedGroup = Group.Default;
+
+                defaultProject.Groups.Add(unsortedGroup);
+                defaultProject.Groups.Add(group1);
+                defaultProject.Groups.Add(group2);
+                defaultProject.Groups.Add(group3);
 
                 return defaultProject;
             }
         }
 
-        private string id;
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Author { get; set; }
+        public DateTimeOffset CreationDate { get; set; }
+        public ICollection<Group> Groups { get; set; }
 
-        public string ID
-        {
-            get { return id; }
-            set
-            {
-                id = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
-            }
-        }
-
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            set
-            {
-                name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
-            }
-        }
-
-        private DateTimeOffset creationDate;
-
-        public DateTimeOffset CreationDate
-        {
-            get { return creationDate; }
-            set
-            {
-                creationDate = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CreationDate)));
-            }
-        }
-
-        private string author;
-
-        public string Author
-        {
-            get { return author; }
-            set
-            {
-                author = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Author)));
-            }
-        }
-
-        private Group unsortedGroup;
-
+        [XmlIgnore]
+        [NotMapped]
         public Group UnsortedGroup
         {
-            get { return unsortedGroup; }
-            set
+            get
             {
-                unsortedGroup = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UnsortedGroup)));
+                return Groups.First(x => x.IsUnsorted == true);
             }
         }
 
-        public ICollection<Group> DefaultGroups { get; set; }
+        [XmlIgnore]
+        [NotMapped]
+        public IEnumerable<Group> DefaultGroups
+        {
+            get
+            {
+                return Groups.Where(x => x.IsUnsorted == false);
+            }
+        }
+    }
+
+    public class SimplifiedProject
+    {
+        public SimplifiedProject()
+        {
+            // Reserved. 
+        }
+
+        public SimplifiedProject(Project project)
+        {
+            Id = project.Id;
+            Name = project.Name;
+            Description = project.Description;
+            Author = project.Author;
+            CreationDate = project.CreationDate;
+            DefaultGroups = project.DefaultGroups;
+            UnsortedGroup = project.UnsortedGroup;
+        }
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Author { get; set; }
+        public DateTimeOffset CreationDate { get; set; }
+        public IEnumerable<Group> DefaultGroups { get; set; }
+        public Group UnsortedGroup { get; set; }
+
+        public Project ToProject()
+        {
+            var asProject = new Project();
+            asProject.Id = Id;
+            asProject.Name = Name;
+            asProject.Description = Description;
+            asProject.Author = Author;
+            asProject.CreationDate = CreationDate;
+            var groups = new List<Group>();
+            groups.Add(UnsortedGroup);
+            groups = groups.Union(DefaultGroups).ToList<Group>();
+            asProject.Groups = groups;
+            return asProject;
+        }
     }
 }

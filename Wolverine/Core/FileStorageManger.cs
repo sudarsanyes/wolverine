@@ -16,7 +16,7 @@ namespace Wolverine.Core
             {
                 writer.WriteLine(json);
             }
-            return newProject.ID;
+            return newProject.Id.ToString();
         }
 
         public override Project Load(string id)
@@ -37,6 +37,11 @@ namespace Wolverine.Core
                 writer.WriteLine(json);
             }
             return true;
+        }
+
+        public override bool Delete(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

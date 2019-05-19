@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Wolverine
+namespace Wolverine.Core
 {
-    public class Card : INotifyPropertyChanged
+    public class Card
     {
         public Card()
         {
-            ID = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public static Card Default
         {
@@ -28,52 +27,9 @@ namespace Wolverine
             }
         }
 
-        private string id;
-
-        public string ID
-        {
-            get { return id; }
-            set
-            {
-                id = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ID)));
-            }
-        }
-
-        private int order;
-
-        public int Order
-        {
-            get { return order; }
-            set
-            {
-                order = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Order)));
-            }
-        }
-
-        private string title;
-
-        public string Title
-        {
-            get { return title; }
-            set
-            {
-                title = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
-            }
-        }
-
-        private string description;
-
-        public string Description
-        {
-            get { return description; }
-            set
-            {
-                description = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
-            }
-        }
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int Order { get; set; }
     }
 }

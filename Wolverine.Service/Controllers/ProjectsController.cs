@@ -42,7 +42,7 @@ namespace Wolverine.Service.Controllers
         {
             using (var context = new ProjectContext())
             {
-                return context.Projects.Include(x => x.DefaultGroups).Include(x => x.UnsortedGroup.Cards).ToList();
+                return context.Projects.Include("Groups.Cards").ToList();
             }
         }
 
@@ -60,15 +60,21 @@ namespace Wolverine.Service.Controllers
         }
 
         [HttpGet("{id}")]
-        public Project Download(string id)
+        public SimplifiedProject Download(string id)
         {
             return projectManager.Load(id);
         }
 
         [HttpPost()]
-        public bool Upload([FromBody] Project project)
+        public bool Upload([FromBody] SimplifiedProject project)
         {
             return projectManager.Save(project);
+        }
+
+        [HttpGet("{id}")]
+        public bool Delete(string id)
+        {
+            return projectManager.Delete(id);
         }
     }
 }

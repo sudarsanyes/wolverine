@@ -5,11 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wolverine.Core;
 
-namespace Wolverine.Service.Model
+namespace Wolverine.Core
 {
     public static class Extensions
     {
-        public static string ProjectAsJson(this Project project)
+        public static string AsJson(this Project project)
+        {
+            return JsonConvert.SerializeObject(project);
+        }
+        public static string AsJson(this SimplifiedProject project)
         {
             return JsonConvert.SerializeObject(project);
         }

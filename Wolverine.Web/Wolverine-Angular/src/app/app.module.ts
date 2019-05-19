@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,7 +28,8 @@ import { CreateComponent } from './Create/create.component';
     HttpClientModule, 
     BrowserModule, 
     FormsModule, 
-    AppRoutingModule
+    AppRoutingModule, 
+    ClipboardModule
   ],
   providers: [
     ProjectService
