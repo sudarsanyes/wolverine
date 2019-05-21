@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ProjectService } from '../Services/project.service';
 import { Project, Group, Card, Guid } from '../Contracts/Contracts';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard'
+import { ConfirmationGuard } from '../Guards/confirmation.guard';
 
 @Component({
     selector: 'create',
@@ -18,7 +19,7 @@ export class CreateComponent {
     IsSavingSuccessful: boolean;
     IsDirty: boolean;
 
-    constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute, private clipboardService: ClipboardService) {
+    constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute, private clipboardService: ClipboardService, private confirmGuard: ConfirmationGuard) {
         this.NewCard = Card.getDefault();
         this.NewGroup = Group.getDefault();
     }
@@ -71,6 +72,7 @@ export class CreateComponent {
     onAddGroup() {
         this.ActiveProject.defaultGroups.push(this.NewGroup);
         this.NewGroup = Group.getDefault();
+        this.NewGroup.isUnsorted = false;
         this.IsDirty = true;
     }
 
@@ -107,5 +109,12 @@ export class CreateComponent {
     onShareLink() {
         this.clipboardService.copyFromContent('http://localhost:4200/sort/' + this.ActiveProject.id);
         alert("Link to sort the cards has been copied to your clipboard.");
+    }
+
+    @HostListener('window:beforeunload')
+    confirm(): boolean {
+        if (this.IsDirty) {
+            return confirm("You have unsaved changes in this page. Are you sure you want to navigate away from here?");
+        }
     }
 }

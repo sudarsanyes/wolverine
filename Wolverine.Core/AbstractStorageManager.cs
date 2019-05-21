@@ -15,5 +15,7 @@ namespace Wolverine.Core
         public abstract bool Save(Project project);
 
         public abstract bool Delete(string id);
+
+        public abstract string Create(Project project);
     }
 }

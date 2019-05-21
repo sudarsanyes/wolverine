@@ -22,6 +22,20 @@ namespace Wolverine.Service.Model
             }
         }
 
+        public override string Create(Project project)
+        {
+            using (var dbContext = new ProjectContext())
+            {
+                if (string.IsNullOrWhiteSpace(project.Id))
+                {
+                    project.Id = Guid.NewGuid().ToString();
+                }
+                dbContext.Projects.Add(project);
+                dbContext.SaveChanges();
+                return project.Id.ToString();
+            }
+        }
+
         public override Project Load(string id)
         {
             using (var dbContext = new ProjectContext())

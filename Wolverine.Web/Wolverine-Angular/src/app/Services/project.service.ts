@@ -13,8 +13,12 @@ export class ProjectService {
         return this.http.get("https://localhost:44314/api/projects/download/" + id);
     }
 
-    public create(name: string) {
+    public createFromName(name: string) {
         return this.http.get("https://localhost:44314/api/projects/create/" + name, { responseType: 'text' });
+    }
+
+    public create(newProject: Project) {
+        return this.http.post("https://localhost:44314/api/projects/create/", newProject, { responseType: 'text' });
     }
 
     public save(project: Project) { 

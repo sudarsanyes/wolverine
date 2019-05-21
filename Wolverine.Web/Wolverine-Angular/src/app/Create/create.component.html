@@ -1,7 +1,13 @@
 <nav class="navbar navbar-light bg-light sticky-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Wolverine.Angular</a>
+                <div class="media">
+                        <img src="../../assets/noun_Wolverine_68964.png" class="align-self-start mr-3 mt-2" width="32" height="32"
+                            alt="Wolverine by Yi Chen from the Noun Project">
+                        <div class="media-body">
+                                <a class="navbar-brand" href="/">Wolverine.Angular</a>
+                        </div>
+                    </div>
         </div>
         <ul class="nav nav-pills nav-fill">
             <li class="nav-item ml-3">
@@ -38,8 +44,9 @@
 
             <span class="h4 display-4">{{ ActiveProject.name }}</span>
             <div class="mt-3 mb-3">
-                <small class="text-muted">{{ ActiveProject.creationDate | date: 'dd MMM yyyy, hh:mm:ss a' }}</small>
-                <br />
+                    <small class="text-muted">{{ ActiveProject.author }}</small> /
+                    <small class="text-muted">{{ ActiveProject.creationDate | date: 'dd MMM yyyy, hh:mm:ss a' }}</small><br />
+                    <button class="btn btn-link px-0" (click)="onShareLink()"><small>Share</small></button>
             </div>
             <hr />
 
@@ -64,14 +71,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-3">
-                <span class="h6 .text-secondary">
-                    <strong>AUTHOR</strong>
-                </span>
-                <input type="text" [(ngModel)]="ActiveProject.author" placeholder="What's your name?" aria-label="Author Name" class="form-control">
-            </div>
-        </div>
         <div class="row mt-5">
             <div class="col-5">
                 <div>
@@ -99,8 +98,8 @@
                                 <h5>{{ card.title }}</h5>
                                 <p class="card-text small text-muted">order #{{ card.order }}</p>
                                 <p class="card-text">{{ card.description }}</p>
-                                <button type="button" class="btn btn-link px-0" (click)="onEditCard(card)">Edit</button>
-                                <button type="button" class="btn btn-link" (click)="onDeleteCard(card)">Delete</button>
+                                <button type="button" class="btn btn-link px-0" hidden (click)="onEditCard(card)">Edit</button>
+                                <button type="button" class="btn btn-link px-0" (click)="onDeleteCard(card)">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -132,8 +131,8 @@
                                 <p class="card-text">
                                     <small class="text-muted">{{ group.description }}</small>
                                 </p>
-                                <button type="button" class="btn btn-link text-black px-0" (click)="onEditGroup(group)">Edit</button>
-                                <button type="button" class="btn btn-link text-black" (click)="onDeleteGroup(group)">Delete</button>
+                                <button type="button" class="btn btn-link text-black px-0" hidden (click)="onEditGroup(group)">Edit</button>
+                                <button type="button" class="btn btn-link text-black px-0" (click)="onDeleteGroup(group)">Delete</button>
 
                                 <ng-template #popContent>
                                     <input type="text" [(ngModel)]="NewCard.title" class="form-control field-with-default-value text-black bg-white" placeholder="Title">

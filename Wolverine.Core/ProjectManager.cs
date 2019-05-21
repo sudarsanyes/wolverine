@@ -36,17 +36,29 @@ namespace Wolverine.Core
 
         public bool Save(SimplifiedProject project)
         {
-            //var existingProject = LoadProject(project.Id);
-            //if (existingProject != null)
-            //{
-            //    existingProject = project.ToProject();
-            //}
             return storage.Save(project.ToProject());
         }
 
         public string Create(string name)
         {
             return storage.Create(name);
+        }
+
+        public string Create(SimplifiedProject project)
+        {
+            if (project.UnsortedGroup == null)
+            {
+                project.UnsortedGroup = Group.DefaultUnsorted;
+            }
+            if (project.DefaultGroups == null)
+            {
+                project.DefaultGroups = new List<Group>() { Group.Default };
+            }
+            if (project.CreationDate == default(DateTimeOffset))
+            {
+                project.CreationDate = DateTimeOffset.Now;
+            }
+            return storage.Create(project.ToProject());
         }
 
         public bool Delete(string id)

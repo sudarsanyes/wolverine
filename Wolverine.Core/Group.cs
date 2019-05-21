@@ -22,8 +22,26 @@ namespace Wolverine.Core
             {
                 return new Group()
                 {
-                    Title = "Untitled-Group",
-                    Description = "This is a sample group. Participant will sort cards in to this group",
+                    IsUnsorted = false, 
+                    Title = "Untitled-Group", 
+                    Description = "This is a sample group. Participant will sort cards in to this group.",
+                    Cards = new ObservableCollection<Card>()
+                    {
+                        Card.Default
+                    }
+                };
+            }
+        }
+
+        public static Group DefaultUnsorted
+        {
+            get
+            {
+                return new Group()
+                {
+                    IsUnsorted = true, 
+                    Title = "Unsorted Group",
+                    Description = "This is an unsorted group. Add your cards here. ",
                     Cards = new ObservableCollection<Card>()
                     {
                         Card.Default

@@ -18,6 +18,7 @@ export class Project {
     id: string;
     title: string;
     description: string;
+    isUnsorted: boolean;
     cards: Card[];
 
     static getDefault() {

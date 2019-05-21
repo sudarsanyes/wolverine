@@ -1,41 +1,132 @@
 <div class="jumbotron">
     <div class="container">
-        <h1>Welcome to {{ Title }}!</h1>
+        <div class="media">
+            <img src="../../assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62" height="62"
+                alt="Wolverine by Yi Chen from the Noun Project">
+            <div class="media-body">
+                <h1>Wolverine</h1>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="container">
-    <span class="h4 mb-5"><span class="badge badge-success mr-2">1</span>Create a project</span> <br />
-    <p>Use this option to create a new project which can then be used to sort and analyze.</p>
-    <div class="input-group">
-        <input type="text" [(ngModel)]="CreateProjectName" placeholder="Untitled-1" aria-label="Project Name"
-            class="form-control">
-        <div class="input-group-append">
-            <button class="btn btn-outline-success" type="button" class="btn btn-primary" (click)="Create()">Create Cards</button>
+    <!-- Create -->
+    <div style="margin-bottom: 7em;">
+        <span class="h4 text-dark"><i class="far fa-file text-dark mr-3"></i>Create a project</span> <br />
+        <p class="text-muted">Use this option to create a new project which can then be used to sort and analyze.</p>
+        <div class="row">
+            <div class="col-7">
+                <form>
+                    <div class="form-group">
+                        <label for="projectName">Project Name</label>
+                        <input [(ngModel)]="NewProject.Name" name="projectName" type="text" class="form-control"
+                            aria-describedby="Project Name" placeholder="Name your project">
+                        <small id="newProjectHelp" class="form-text text-muted">Avoid using space and special
+                            characters.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="authorName">Author Name</label>
+                        <input [(ngModel)]="NewProject.Author" name="author" type="text" class="form-control"
+                            aria-describedby="Author Name" placeholder="What's your name?">
+                    </div>
+                    <button type="button" class="btn btn-secondary" (click)="Create()">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">
+                                        <span *ngIf="!IsCreatingNewProject">Create</span>
+                                        <span *ngIf="IsCreatingNewProject">Creating</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div *ngIf="IsCreatingNewProject" class="spinner-border spinner-border-sm mx-3"
+                                            role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <span class="h4 mb-5"><span class="badge badge-danger mr-2">2</span>Participate</span> <br />
-    <p>Use this option as a participant to sort cards in an existing project.</p>
-    <div class="input-group">
-        <input type="text" [(ngModel)]="SortProjectID" placeholder="64b2998e-bcad-49bf-bd2f-837a02abe18a" aria-label="Project ID"
-            class="form-control">
-        <div class="input-group-append">
-            <button class="btn btn-outline-danger" type="button" class="btn btn-primary" (click)="Open()">Let me Sort</button>
+
+    <!-- Sort -->
+    <div style="margin-bottom: 7em;">
+        <span class="h4 text-dark"><i class="far fa-clone text-dark mr-3"></i>Participate</span> <br />
+        <p class="text-muted">Use this option as a participant to sort cards in an existing project.</p>
+        <div class="row">
+            <div class="col-7">
+                <form>
+                    <div class="form-group">
+                        <label for="projectId">Project Id</label>
+                        <input [(ngModel)]="SortProjectId" name="sortId" type="text"
+                            placeholder="64b2998e-bcad-49bf-bd2f-837a02abe18a" aria-label="Project Id"
+                            class="form-control">
+                        <small id="sortProjectHelp" class="form-text text-muted">Ask for the Project Id from the project
+                            author.</small>
+                    </div>
+                    <button type="button" class="btn btn-secondary" (click)="Sort()">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">
+                                        <span *ngIf="!IsOpeningForSorting">Let me Sort</span>
+                                        <span *ngIf="IsOpeningForSorting">Opening...</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div *ngIf="IsOpeningForSorting" class="spinner-border spinner-border-sm mx-3"
+                                            role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <span class="h4 mb-5"><span class="badge badge-warning mr-2">3</span>Analyze</span> <br />
-    <p>Use this option to see how participants organized the cards.</p>
-    <div class="input-group">
-        <input type="text" [(ngModel)]="AnalyzeProjectID" placeholder="64b2998e-bcad-49bf-bd2f-837a02abe18a" aria-label="Project ID"
-            class="form-control">
-        <div class="input-group-append">
-            <button class="btn btn-outline-warning" type="button" class="btn btn-primary" (click)="Analyze()">Let's Analyze</button>
+
+    <!-- Sort -->
+    <div style="margin-bottom: 7em;">
+        <span class="h4 text-dark"><i class="far fa-chart-bar text-dark mr-3"></i>Analyze</span> <br />
+        <p class="text-muted">Use this option to see how participants organized the cards.</p>
+        <div class="row">
+            <div class="col-7">
+                <form>
+                    <div class="form-group">
+                        <label for="projectId">Project Id</label>
+                        <input [(ngModel)]="AnalyzeProjectId" name="analyzeId" type="text"
+                            placeholder="64b2998e-bcad-49bf-bd2f-837a02abe18a" aria-label="Project Id"
+                            class="form-control">
+                        <small id="analyzeProjectHelp" class="form-text text-muted">If you are the author, then you
+                            would know this <i class="far fa-smile-wink"></i></small>
+                    </div>
+                    <button type="button" class="btn btn-secondary" (click)="Analyze()">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">
+                                        <span *ngIf="!IsOpeningForAnalysis">Analyze</span>
+                                        <span *ngIf="IsOpeningForAnalysis">Opening...</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div *ngIf="IsOpeningForAnalysis" class="spinner-border spinner-border-sm mx-3"
+                                            role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
+
 </div>

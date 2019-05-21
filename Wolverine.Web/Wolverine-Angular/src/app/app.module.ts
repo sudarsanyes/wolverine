@@ -10,6 +10,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProjectService } from './Services/project.service';
+import { ConfirmationGuard } from './Guards/confirmation.guard';
 import { TestComponent } from './Test/test.component';
 import { HomeComponent } from './Home/home.component';
 import { SortComponent } from './Sort/sort.component';
@@ -32,7 +33,8 @@ import { CreateComponent } from './Create/create.component';
     ClipboardModule
   ],
   providers: [
-    ProjectService
+    ProjectService,
+    ConfirmationGuard
   ],
   bootstrap: [AppComponent]
 })

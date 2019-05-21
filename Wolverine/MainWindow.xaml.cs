@@ -84,7 +84,7 @@ namespace Wolverine
         private void OpenMenuItemClick(object sender, RoutedEventArgs e)
         {
             ProjectManager projectManager = new ProjectManager(new FileStorageManger());
-            Project = projectManager.Load(@"C:\Users\sesa151027\Desktop\cards.json");
+            //Project = projectManager.Load(@"C:\Users\sesa151027\Desktop\cards.json");
         }
 
         private void SaveMenuItemClick(object sender, RoutedEventArgs e)

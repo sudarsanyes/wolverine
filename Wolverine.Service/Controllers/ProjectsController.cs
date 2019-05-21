@@ -35,7 +35,7 @@ namespace Wolverine.Service.Controllers
 
         public string Help()
         {
-            return string.Format($"The following are the apis available under this route: \r\nIndex \r\nList \r\nCreate(Name) \r\nDownload(ID) \r\nDownloadAsString(ID) \r\nUpload(ID) \r\nHelp");
+            return string.Format($"The following are the apis available under this route: \r\nIndex \r\nList \r\nCreate(Name) \r\nCreate(Project) \r\nDownload(ID) \r\nDownloadAsString(ID) \r\nUpload(ID) \r\nHelp");
         }
 
         public IList<Project> List()
@@ -46,10 +46,16 @@ namespace Wolverine.Service.Controllers
             }
         }
 
-        [HttpGet("{name}")]
+        [HttpPost("{name}")]
         public string Create(string name)
         {
             return projectManager.Create(name);
+        }
+
+        [HttpPost()]
+        public string Create([FromBody]SimplifiedProject project)
+        {
+            return projectManager.Create(project);
         }
 
         [HttpGet("{id}")]
