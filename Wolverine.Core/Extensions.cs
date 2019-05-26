@@ -13,7 +13,7 @@ namespace Wolverine.Core
         {
             return JsonConvert.SerializeObject(project);
         }
-        public static string AsJson(this SimplifiedProject project)
+        public static string AsJson(this CategorizedProject project)
         {
             return JsonConvert.SerializeObject(project);
         }

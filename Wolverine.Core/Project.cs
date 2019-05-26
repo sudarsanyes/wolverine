@@ -85,14 +85,14 @@ namespace Wolverine.Core
         }
     }
 
-    public class SimplifiedProject
+    public class CategorizedProject
     {
-        public SimplifiedProject()
+        public CategorizedProject()
         {
             // Reserved. 
         }
 
-        public SimplifiedProject(Project project)
+        public CategorizedProject(Project project)
         {
             Id = project.Id;
             Name = project.Name;

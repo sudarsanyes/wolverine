@@ -27,7 +27,7 @@ export class HomeComponent {
   Sort() {
     this.IsOpeningForSorting = true;
     this.projectService.load(this.SortProjectId).subscribe((data: Project) => {
-      this.router.navigateByUrl('/sort');
+      this.router.navigateByUrl('/sort/' + data.id);
       this.IsOpeningForSorting = false;
     });
   }

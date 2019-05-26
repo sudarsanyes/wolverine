@@ -1,113 +1,93 @@
 <nav class="navbar navbar-light bg-light sticky-top">
-        <div class="container">
-            <div class="navbar-header">
-                    <div class="media">
-                            <img src="../../assets/noun_Wolverine_68964.png" class="align-self-start mr-3 mt-2" width="32" height="32"
-                                alt="Wolverine by Yi Chen from the Noun Project">
-                            <div class="media-body">
-                                    <a class="navbar-brand" href="/">Wolverine.Angular</a>
-                            </div>
-                        </div>
+    <div class="container">
+        <div class="navbar-header">
+            <div class="media">
+                <img src="../../assets/noun_Wolverine_68964.png" class="align-self-start mr-3 mt-2" width="32"
+                    height="32" alt="Wolverine by Yi Chen from the Noun Project">
+                <div class="media-body">
+                    <a class="navbar-brand" href="/">Wolverine.Angular</a>
+                </div>
             </div>
-            <ul class="nav nav-pills nav-fill">
-                <li class="nav-item ml-3">
-                    <button type="button" class="btn btn-primary" (click)="onSave()">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td class="align-middle">Save Changes</td>
-                                    <td class="align-middle">
-                                        <div *ngIf="IsSaving" class="spinner-border spinner-border-sm mx-3" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <i *ngIf="IsSavingSuccessful && (!IsSaving && !IsDirty)" class="fa fa-check mx-3" aria-hidden="true"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </button>
-                </li>
-            </ul>
-    
         </div>
-    </nav>
-    
-    <div class="container mt-5">
-    
-        <div *ngIf="ActiveProject">
-            <div *ngIf="ActiveProject.unsortedGroup">
-    
-                <span class="h4 display-4">{{ ActiveProject.name }}</span>
-                <div class="mt-3 mb-3">
-                        <small class="text-muted">{{ ActiveProject.author }}</small> /
-                        <small class="text-muted">{{ ActiveProject.creationDate | date: 'dd MMM yyyy, hh:mm:ss a' }}</small><br />
-                </div>
-                <hr />
-    
-                <!-- Getting Started -->
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <h4 class="alert-heading">Getting Started</h4>
-                          <ol class="px-3">
-                        <li>Drag cards from the 
-                            <em>Unsorted Group.</em> and drop them on 
-                            <em>Sorted Group.</em>
-                        </li>
-                        <li>Publish the changes.</li>
-                    </ol>
-                </div>
-            </div>
-    
-            <div class="row mt-5">
-                <div class="col-5">
-                    <div>
-                        <span class="h6 .text-secondary">
-                            <strong>UNSORTED GROUP</strong>
-                        </span>
-                        <br />
-                        <em>{{ ActiveProject.unsortedGroup.description }}</em>
-                        <!-- UnsortedGroup > Cards -->
-                        <div class="mt-5 mb-5">
-                            <div *ngFor="let card of ActiveProject.unsortedGroup.cards" class="card draggable mt-3" style="width: 18rem;">
-                                <div class="card-body">
-                                    <h5>{{ card.title }}</h5>
-                                    <p class="card-text small text-muted">order #{{ card.order }}</p>
-                                    <p class="card-text">{{ card.description }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="col-7">
-                    <div>
-                        <span class="h6 .text-secondary">
-                            <strong>DEFAULT GROUPS</strong>
-                        </span>
-                        <br />
-                        <em>You will sort the cards in to these groups.</em>
-                        <!-- SortedGroups -->
-                        <div class="mt-5">
-                            <div *ngFor="let group of ActiveProject.defaultGroups" class="card mb-3 bg-light">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ group.title }}</h5>
-                                    <p class="card-text">
-                                        <small class="text-muted">{{ group.description }}</small>
-                                    </p>
-    
-                                    <div *ngFor="let card of group.cards" class="card draggable mt-1 mb-1" data-toggle="tooltip" data-placement="left" title="{{ card.description }}"
-                                        style="width: 18rem;">
-                                        <div class="card-body">
-                                            <h5>{{ card.title }}</h5>
-                                        </div>
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item ml-3">
+                <button type="button" class="btn btn-primary" (click)="onSave()">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle">Save Changes</td>
+                                <td class="align-middle">
+                                    <div *ngIf="IsSaving" class="spinner-border spinner-border-sm mx-3" role="status">
+                                        <span class="sr-only">Loading...</span>
                                     </div>
-    
+                                </td>
+                                <td class="align-middle">
+                                    <i *ngIf="IsSavingSuccessful && (!IsSaving && !IsDirty)" class="fa fa-check mx-3"
+                                        aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </button>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <div *ngIf="ActiveProject">
+        <span class="h4 display-4">{{ ActiveProject.name }}</span>
+        <div class="mt-3 mb-3">
+            <small class="text-muted">{{ ActiveProject.author }}</small> /
+            <small class="text-muted">{{ ActiveProject.creationDate | date: 'dd MMM yyyy, hh:mm:ss a' }}</small><br />
+        </div>
+        <hr />
+
+        <!-- Getting Started -->
+        <div class="alert alert-warning mt-5" role="alert">
+            <h4 class="alert-heading">Getting Started</h4>
+            <ol class="px-3">
+                <li>Drag cards from the
+                    <em>Unsorted Group.</em> and drop them on
+                    <em>Sorted Group.</em>
+                </li>
+                <li>Publish the changes.</li>
+            </ol>
+        </div>
+
+        <!-- Groups and Cards -->
+        <div [ngClass]="group.isUnsorted ? 'row' : 'float-left col-3'" *ngFor="let group of ActiveProject.groups">
+            <div [ngClass]="group.isUnsorted ? 'col-12' : ''">
+                <div [ngClass]="group.isUnsorted ? 'card border-primary my-3' : 'card my-3'">
+
+                    <div
+                        [ngClass]="group.isUnsorted ? 'card-header bg-primary text-white' : 'card-header bg-light text-dark'">
+                        <h5 class="card-title">{{ group.title }}</h5>
+                        <div class="Card-body mx-0 my-0"><small class="">{{ group.description }}</small></div>
+                    </div>
+
+                    <div cdkDropList id="{{ group.id }}" [cdkDropListData]="group.cards"
+                        [cdkDropListConnectedTo]="Groups" class="card-deck px-3 py-3" (cdkDropListDropped)="drop($event)">
+                        <div *ngFor="let card of group.cards" cdkDrag>
+                            <div class="card draggable my-3 px-3 py-3">
+                                <b class="card-title">
+                                    {{ card.title }}
+                                </b>
+                                <div class="card-body px-0 py-0">
+                                    {{ card.description }}
                                 </div>
                             </div>
+                        </div>
+                        <div *ngIf="group.cards?.length == 0" class="mx-3 my-3">
+                            <small class="text-muted">you can drop cards here.</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
+
+</div>

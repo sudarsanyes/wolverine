@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { ProjectService } from '../Services/project.service';
-import { Project, Group, Card, Guid } from '../Contracts/Contracts';
+import { Group, Card, Guid, SimplifiedProject } from '../Contracts/Contracts';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard'
 import { ConfirmationGuard } from '../Guards/confirmation.guard';
@@ -11,7 +11,7 @@ import { ConfirmationGuard } from '../Guards/confirmation.guard';
 })
 export class CreateComponent {
 
-    ActiveProject: Project;
+    ActiveProject: SimplifiedProject;
     ID: string;
     NewCard: Card;
     NewGroup: Group;
@@ -26,7 +26,7 @@ export class CreateComponent {
 
     ngOnInit() {
         this.ID = this.route.snapshot.paramMap.get('name');
-        this.projectService.load(this.ID).subscribe((project: Project) => {
+        this.projectService.load(this.ID).subscribe((project: SimplifiedProject) => {
             this.ActiveProject = project;
         });
     }
@@ -96,6 +96,7 @@ export class CreateComponent {
 
     onSave() {
         this.IsSaving = true;
+        console.log(this.ActiveProject);
         var response = this.projectService.save(this.ActiveProject);
         response.subscribe((data: boolean) => {
             this.IsSaving = false;

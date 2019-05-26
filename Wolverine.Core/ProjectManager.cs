@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace Wolverine.Core
 {
@@ -15,12 +16,18 @@ namespace Wolverine.Core
             storage = storageManager;
         }
 
-        public SimplifiedProject Project { get; private set; }
+        public Project Project { get; private set; }
 
-        public SimplifiedProject Load(string id)
+        public Project Load(string id)
         {
             var project = storage.Load(id);
-            return new SimplifiedProject(project);
+            project.Groups = project.Groups.OrderBy(x => !x.IsUnsorted).ToList<Group>();
+            return project;
+        }
+
+        public Project LoadAsProject(string id)
+        {
+            return storage.Load(id);
         }
 
         public Project LoadProject(string id)
@@ -31,12 +38,13 @@ namespace Wolverine.Core
         public string LoadAsString(string id)
         {
             var project = storage.Load(id);
-            return new SimplifiedProject(project).AsJson();
+            return project.AsJson();
         }
 
-        public bool Save(SimplifiedProject project)
+        public bool Save(Project project)
         {
-            return storage.Save(project.ToProject());
+            project.Groups = project.Groups.OrderBy(x => !x.IsUnsorted).ToList<Group>();
+            return storage.Save(project);
         }
 
         public string Create(string name)
@@ -44,21 +52,17 @@ namespace Wolverine.Core
             return storage.Create(name);
         }
 
-        public string Create(SimplifiedProject project)
+        public string Create(Project project)
         {
-            if (project.UnsortedGroup == null)
+            if (project.Groups == null || project.Groups.FirstOrDefault(x => x.IsUnsorted) == null)
             {
-                project.UnsortedGroup = Group.DefaultUnsorted;
+                project.Groups.Add(Group.DefaultUnsorted);
             }
-            if (project.DefaultGroups == null)
-            {
-                project.DefaultGroups = new List<Group>() { Group.Default };
-            }
-            if (project.CreationDate == default(DateTimeOffset))
+            if (project.CreationDate == default)
             {
                 project.CreationDate = DateTimeOffset.Now;
             }
-            return storage.Create(project.ToProject());
+            return storage.Create(project);
         }
 
         public bool Delete(string id)

@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -30,7 +31,8 @@ import { CreateComponent } from './Create/create.component';
     BrowserModule, 
     FormsModule, 
     AppRoutingModule, 
-    ClipboardModule
+    ClipboardModule,
+    DragDropModule 
   ],
   providers: [
     ProjectService,
