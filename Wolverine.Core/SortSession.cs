@@ -10,12 +10,14 @@ namespace Wolverine.Core
     {
         public SortSession()
         {
-            // Reserved. 
+            Id = Guid.NewGuid().ToString();
+            SessionInstance = DateTimeOffset.Now;
         }
 
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Comments { get; set; }
         public string Participant { get; set; }
+        public string Reference { get; set; }
         public Project Project { get; set; }
         public DateTimeOffset SessionInstance { get; set; }
     }

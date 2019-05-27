@@ -43,5 +43,20 @@ namespace Wolverine.Core
         {
             throw new NotImplementedException();
         }
+
+        public override string Create(Project project)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string CreateSort(string projectId, Project clonedProject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool SaveSort(SortSession session)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

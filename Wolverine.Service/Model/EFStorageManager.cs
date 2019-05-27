@@ -18,7 +18,7 @@ namespace Wolverine.Service.Model
                 newProject.Name = name;
                 dbContext.Projects.Add(newProject);
                 dbContext.SaveChanges();
-                return newProject.Id.ToString();
+                return newProject.Id;
             }
         }
 
@@ -88,6 +88,52 @@ namespace Wolverine.Service.Model
                 dbContext.SaveChanges();
             }
             return true;
+        }
+
+        public override string CreateSort(string projectId, Project clonedProject)
+        {
+            using (var dbContext = new ProjectContext())
+            {
+                var sortSession = new SortSession()
+                {
+                    Project = clonedProject,
+                    Reference = projectId
+                };
+                dbContext.SortSessions.Add(sortSession);
+                dbContext.SaveChanges();
+                return sortSession.Id;
+            }
+        }
+
+        public override bool SaveSort(SortSession session)
+        {
+            using (var dbContext = new ProjectContext())
+            {
+                var existingSession = dbContext.SortSessions.FirstOrDefault(x => x.Id == session.Id);
+                if (existingSession == null)
+                {
+                    dbContext.Add(session);
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    dbContext.Remove(existingSession);
+                    dbContext.SaveChanges();
+                    dbContext.Add(session);
+                    dbContext.SaveChanges();
+                }
+            }
+            return true;
+        }
+
+        public override SortSession LoadSort(string id)
+        {
+            using (var dbContext = new ProjectContext())
+            {
+                var existingSession = dbContext.SortSessions.Include("Project.Groups.Cards").FirstOrDefault(x => x.Id == id);
+                existingSession.Project.Groups = existingSession.Project.Groups.OrderBy(x => !x.IsUnsorted).ToList<Group>();
+                return existingSession;
+            }
         }
     }
 }

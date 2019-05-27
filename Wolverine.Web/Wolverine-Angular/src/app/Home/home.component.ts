@@ -26,8 +26,8 @@ export class HomeComponent {
 
   Sort() {
     this.IsOpeningForSorting = true;
-    this.projectService.load(this.SortProjectId).subscribe((data: Project) => {
-      this.router.navigateByUrl('/sort/' + data.id);
+    this.projectService.createSort(this.SortProjectId).subscribe((sortSessionId: string) => {
+      this.router.navigateByUrl('/sort/' + sortSessionId);
       this.IsOpeningForSorting = false;
     });
   }

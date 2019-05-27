@@ -9,6 +9,19 @@ namespace Wolverine.Core
 {
     public class Group
     {
+        public Group(Group copy)
+        {
+            Id = Guid.NewGuid().ToString();
+            Cards = new ObservableCollection<Card>();
+            foreach (var card in copy.Cards)
+            {
+                Cards.Add(new Card(card));
+            }
+            IsUnsorted = copy.IsUnsorted;
+            Title = copy.Title;
+            Description = copy.Description;
+        }
+
         public Group()
         {
             Id = Guid.NewGuid().ToString();

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Project, Group, Card, SimplifiedProject, Helpers } from '../Contracts/Contracts';
+import { Project, Group, Card, SimplifiedProject, Helpers, SortSession } from '../Contracts/Contracts';
 import { projection } from '@angular/core/src/render3';
 
 @Injectable()
@@ -22,8 +22,19 @@ export class ProjectService {
     }
 
     public save(simplifiedProject: SimplifiedProject) { 
-        console.log("Service.save");
         var project = Helpers.toProject(simplifiedProject);
         return this.http.post("https://localhost:44314/api/projects/upload/", project);
+    }
+
+    public createSort(projectId: string) {
+        return this.http.get("https://localhost:44314/api/sort/create/" + projectId, { responseType: 'text' });
+    }
+
+    public loadSort(id: string) {
+        return this.http.get("https://localhost:44314/api/sort/download/" + id);
+    }
+
+    public saveSort(sortSession: SortSession) { 
+        return this.http.post("https://localhost:44314/api/sort/upload/", sortSession);
     }
 }

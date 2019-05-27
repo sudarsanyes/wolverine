@@ -15,6 +15,7 @@ namespace Wolverine.Service.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Author = table.Column<string>(nullable: true),
+                    IsSessionZero = table.Column<bool>(nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
@@ -47,15 +48,16 @@ namespace Wolverine.Service.Migrations
                 name: "SortSessions",
                 columns: table => new
                 {
-                    ID = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     Comments = table.Column<string>(nullable: true),
                     Participant = table.Column<string>(nullable: true),
+                    Reference = table.Column<string>(nullable: true),
                     ProjectId = table.Column<string>(nullable: true),
                     SessionInstance = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SortSessions", x => x.ID);
+                    table.PrimaryKey("PK_SortSessions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_SortSessions_Projects_ProjectId",
                         column: x => x.ProjectId,

@@ -9,6 +9,14 @@ namespace Wolverine.Core
 {
     public class Card
     {
+        public Card(Card copy)
+        {
+            Id = Guid.NewGuid().ToString();
+            Title = copy.Title;
+            Description = copy.Description;
+            Order = copy.Order;
+        }
+
         public Card()
         {
             Id = Guid.NewGuid().ToString();

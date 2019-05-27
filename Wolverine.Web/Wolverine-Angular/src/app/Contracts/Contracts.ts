@@ -1,7 +1,9 @@
 export class SortSession {
   id: string;
   participant: string;
-  sessionData: Date;
+  sessionInstance: Date;
+  reference: string;
+  comments: string;
   project: Project;
 }
 

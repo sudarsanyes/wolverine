@@ -17,5 +17,11 @@ namespace Wolverine.Core
         public abstract bool Delete(string id);
 
         public abstract string Create(Project project);
+
+        public abstract string CreateSort(string projectId, Project clonedProject);
+
+        public abstract bool SaveSort(SortSession session);
+
+        public abstract SortSession LoadSort(string id);
     }
 }

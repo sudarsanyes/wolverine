@@ -62,12 +62,29 @@ namespace Wolverine.Core
             {
                 project.CreationDate = DateTimeOffset.Now;
             }
+            project.IsSessionZero = true;
             return storage.Create(project);
         }
 
         public bool Delete(string id)
         {
             return storage.Delete(id);
+        }
+
+        public string CreateSort(string projectId)
+        {
+            var clonedProject = new Project(Load(projectId));
+            return storage.CreateSort(projectId, clonedProject);
+        }
+
+        public bool SaveSort(SortSession session)
+        {
+            return storage.SaveSort(session);
+        }
+
+        public SortSession LoadSort(string id)
+        {
+            return storage.LoadSort(id);
         }
     }
 }

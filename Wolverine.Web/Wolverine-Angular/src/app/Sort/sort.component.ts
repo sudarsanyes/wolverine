@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProjectService } from '../Services/project.service';
-import { Project, Group, Card } from '../Contracts/Contracts';
+import { Project, Group, Card, SortSession } from '../Contracts/Contracts';
 import { ClipboardService } from 'ngx-clipboard';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -11,6 +11,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 export class SortComponent {
 
+  ActiveSortSession: SortSession;
   ActiveProject: Project;
   Id: string;
   IsSaving: boolean;
@@ -24,8 +25,9 @@ export class SortComponent {
 
   ngOnInit() {
     this.Id = this.route.snapshot.paramMap.get('id');
-    this.projectService.load(this.Id).subscribe((project: Project) => {
-      this.ActiveProject = project;
+    this.projectService.loadSort(this.Id).subscribe((sortSession: SortSession) => {
+      this.ActiveSortSession = sortSession;
+      this.ActiveProject = this.ActiveSortSession.project;
       for (let group of this.ActiveProject.groups) {
         this.Groups.push(group.id);
       }
@@ -43,5 +45,17 @@ export class SortComponent {
         event.previousIndex,
         event.currentIndex);
     }
+  }
+
+  onSave() {
+      this.IsSaving = true;
+      var response = this.projectService.saveSort(this.ActiveSortSession);
+      response.subscribe((data: boolean) => {
+          this.IsSaving = false;
+          this.IsSavingSuccessful = data;
+          if (this.IsSavingSuccessful) {
+              this.IsDirty = false;
+          }
+      });
   }
 }

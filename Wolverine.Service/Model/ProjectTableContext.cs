@@ -25,7 +25,7 @@ namespace Wolverine.Service.Model
             //modelBuilder.Entity<Group>().Property(x => x.Id).ValueGeneratedOnAddOrUpdate();
             //modelBuilder.Entity<Project>().Property(x => x.Id).ValueGeneratedOnAddOrUpdate();
 
-            modelBuilder.Entity<SortSession>().HasOne(x => x.Project);
+            //modelBuilder.Entity<SortSession>().HasOne(x => x.Project);
             modelBuilder.Entity<Group>().HasMany(x => x.Cards).WithOne().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Project>().HasMany(x => x.Groups).WithOne().OnDelete(DeleteBehavior.Cascade);
 

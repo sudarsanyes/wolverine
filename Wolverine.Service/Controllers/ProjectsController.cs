@@ -46,7 +46,7 @@ namespace Wolverine.Service.Controllers
             }
         }
 
-        [HttpPost("{name}")]
+        [HttpGet("{name}")]
         public string Create(string name)
         {
             return projectManager.Create(name);

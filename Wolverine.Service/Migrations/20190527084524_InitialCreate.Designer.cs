@@ -9,7 +9,7 @@ using Wolverine.Service.Model;
 namespace Wolverine.Service.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20190518115809_InitialCreate")]
+    [Migration("20190527084524_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,8 @@ namespace Wolverine.Service.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<bool>("IsSessionZero");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -78,7 +80,7 @@ namespace Wolverine.Service.Migrations
 
             modelBuilder.Entity("Wolverine.Core.SortSession", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Comments");
@@ -87,9 +89,11 @@ namespace Wolverine.Service.Migrations
 
                     b.Property<string>("ProjectId");
 
+                    b.Property<string>("Reference");
+
                     b.Property<DateTimeOffset>("SessionInstance");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 

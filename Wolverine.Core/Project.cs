@@ -11,6 +11,25 @@ namespace Wolverine.Core
 {
     public class Project
     {
+        public Project(Project copy)
+        {
+            Id = Guid.NewGuid().ToString();
+            Name = copy.Name;
+            Description = copy.Description;
+            Author = copy.Author;
+            CreationDate = copy.CreationDate;
+
+            var copyGroups = new List<Group>();
+
+            copyGroups.Add(new Group(copy.UnsortedGroup));
+            foreach (var group in copy.DefaultGroups)
+            {
+                copyGroups.Add(new Group(group));
+            }
+
+            Groups = copyGroups;
+        }
+
         public Project()
         {
             Id = Guid.NewGuid().ToString();
@@ -61,6 +80,7 @@ namespace Wolverine.Core
         public string Name { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
+        public bool IsSessionZero { get; set; } = false;
         public DateTimeOffset CreationDate { get; set; }
         public ICollection<Group> Groups { get; set; }
 
@@ -70,7 +90,7 @@ namespace Wolverine.Core
         {
             get
             {
-                return Groups.First(x => x.IsUnsorted == true);
+                return Groups.FirstOrDefault(x => x.IsUnsorted == true);
             }
         }
 
