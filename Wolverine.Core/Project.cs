@@ -18,6 +18,7 @@ namespace Wolverine.Core
             Description = copy.Description;
             Author = copy.Author;
             CreationDate = copy.CreationDate;
+            IsSessionZero = false;
 
             var copyGroups = new List<Group>();
 
@@ -80,7 +81,7 @@ namespace Wolverine.Core
         public string Name { get; set; }
         public string Description { get; set; }
         public string Author { get; set; }
-        public bool IsSessionZero { get; set; } = false;
+        public bool IsSessionZero { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public ICollection<Group> Groups { get; set; }
 
@@ -128,6 +129,7 @@ namespace Wolverine.Core
         public string Description { get; set; }
         public string Author { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public bool IsSessionZero { get; set; }
         public IEnumerable<Group> DefaultGroups { get; set; }
         public Group UnsortedGroup { get; set; }
 
@@ -139,6 +141,7 @@ namespace Wolverine.Core
             asProject.Description = Description;
             asProject.Author = Author;
             asProject.CreationDate = CreationDate;
+            asProject.IsSessionZero = IsSessionZero;
             var groups = new List<Group>();
             groups.Add(UnsortedGroup);
             groups = groups.Union(DefaultGroups).ToList<Group>();

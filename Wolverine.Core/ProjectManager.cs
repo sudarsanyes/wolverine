@@ -62,7 +62,6 @@ namespace Wolverine.Core
             {
                 project.CreationDate = DateTimeOffset.Now;
             }
-            project.IsSessionZero = true;
             return storage.Create(project);
         }
 

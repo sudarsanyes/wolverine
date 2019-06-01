@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ProjectService } from '../Services/project.service';
 import { Project, Group, Card, SortSession } from '../Contracts/Contracts';
 import { ClipboardService } from 'ngx-clipboard';
@@ -10,6 +10,13 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   templateUrl: './sort.component.html'
 })
 export class SortComponent {
+
+  @HostListener('window:beforeunload')
+  confirm(): boolean {
+    if (this.IsDirty) {
+      return confirm("You have unsaved changes in this page. Are you sure you want to navigate away from here?");
+    }
+  }
 
   ActiveSortSession: SortSession;
   ActiveProject: Project;
@@ -48,14 +55,19 @@ export class SortComponent {
   }
 
   onSave() {
+    if (this.ActiveSortSession.participant == null) {
+      alert("Participant name cannot be empty. Make sure that you have mentioned your name as the participant.");
+    }
+    else {
       this.IsSaving = true;
       var response = this.projectService.saveSort(this.ActiveSortSession);
       response.subscribe((data: boolean) => {
-          this.IsSaving = false;
-          this.IsSavingSuccessful = data;
-          if (this.IsSavingSuccessful) {
-              this.IsDirty = false;
-          }
+        this.IsSaving = false;
+        this.IsSavingSuccessful = data;
+        if (this.IsSavingSuccessful) {
+          this.IsDirty = false;
+        }
       });
+    }
   }
 }

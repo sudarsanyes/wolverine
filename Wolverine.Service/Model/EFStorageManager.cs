@@ -16,6 +16,7 @@ namespace Wolverine.Service.Model
             {
                 var newProject = Project.Default;
                 newProject.Name = name;
+                newProject.IsSessionZero = true;
                 dbContext.Projects.Add(newProject);
                 dbContext.SaveChanges();
                 return newProject.Id;
@@ -30,6 +31,7 @@ namespace Wolverine.Service.Model
                 {
                     project.Id = Guid.NewGuid().ToString();
                 }
+                project.IsSessionZero = true;
                 dbContext.Projects.Add(project);
                 dbContext.SaveChanges();
                 return project.Id.ToString();

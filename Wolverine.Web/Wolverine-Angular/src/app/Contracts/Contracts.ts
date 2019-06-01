@@ -12,6 +12,7 @@ export class SimplifiedProject {
   name: string;
   author: string;
   creationDate: Date;
+  isSessionZero: Boolean;
   defaultGroups: Group[];
   unsortedGroup: Group;
 
@@ -25,6 +26,7 @@ export class Project {
   name: string;
   author: string;
   creationDate: Date;
+  isSessionZero: Boolean;
   groups: Group[];
 }
 
@@ -77,6 +79,7 @@ export class Helpers {
     asProject.name = simplifiedProject.name;
     asProject.author = simplifiedProject.author;
     asProject.creationDate = simplifiedProject.creationDate;
+    asProject.isSessionZero = simplifiedProject.isSessionZero;
     asProject.groups = [];
     asProject.groups.push(simplifiedProject.unsortedGroup);
     for (let group of simplifiedProject.defaultGroups) {

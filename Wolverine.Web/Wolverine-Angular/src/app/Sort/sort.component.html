@@ -15,7 +15,7 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="align-middle">Save and Publish Changes</td>
+                                <td class="align-middle">Publish</td>
                                 <td class="align-middle">
                                     <div *ngIf="IsSaving" class="spinner-border spinner-border-sm mx-3" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -40,17 +40,16 @@
     <div *ngIf="ActiveProject">
         <span class="h4">{{ ActiveProject.name }}</span>
         <div class="mt-3 mb-3">
-            <small class="text-muted">This project is created by: <mark>{{ ActiveProject.author }}</mark> on {{ ActiveProject.creationDate | date: 'dd MMM yyyy' }}</small><br />
+            <small class="text-muted">This project is created by: <mark>{{ ActiveProject.author }}</mark> on
+                {{ ActiveProject.creationDate | date: 'dd MMM yyyy' }}</small><br />
         </div>
-        
-        <hr />
 
         <!-- Help -->
         <div class="alert alert-warning mt-5" role="alert">
             <h4 class="alert-heading">Help</h4>
             <ol class="px-3">
                 <li>Drag cards from the
-                    <em>Unsorted Group (blue)</em> and drop them on to any of the 
+                    <em>Unsorted Group (blue)</em> and drop them on to any of the
                     <em>Sorted Groups (gray).</em>
                 </li>
                 <li>Save and publish the changes.</li>
@@ -58,8 +57,23 @@
             </ol>
         </div>
 
+        <!-- Participant Metadata -->
+        <div class="mt-5">
+            <form>
+                <div class="form-group">
+                    <label class="form-control-lg px-0" for="participant">Participant:</label>
+                    <input type="text" [(ngModel)]="ActiveSortSession.participant" name="participantMetadata"
+                        class="form-control-lg field-with-default-value" placeholder="What's your name?"> <br />
+                    <small hidden class="text-muted">This session is last updated on:
+                        {{ ActiveSortSession.sessionInstance  | date: 'dd MMM yyyy' }}
+                    </small>
+                </div>
+            </form>
+        </div>
+
         <!-- Groups and Cards -->
-        <div [ngClass]="group.isUnsorted ? 'row' : 'float-left col-3'" *ngFor="let group of ActiveProject.groups">
+        <div [ngClass]="group.isUnsorted ? 'row' : 'float-left col-3 px-0 py-0 ml-0 mr-3 mt-0 mb-3'"
+            *ngFor="let group of ActiveProject.groups">
             <div [ngClass]="group.isUnsorted ? 'col-12' : ''">
                 <div [ngClass]="group.isUnsorted ? 'card border-primary my-3' : 'card my-3'">
 
@@ -70,19 +84,22 @@
                     </div>
 
                     <div cdkDropList id="{{ group.id }}" [cdkDropListData]="group.cards"
-                        [cdkDropListConnectedTo]="Groups" class="card-deck px-3 py-3" (cdkDropListDropped)="drop($event)">
+                        [cdkDropListConnectedTo]="Groups" class="card-deck px-3 py-3"
+                        (cdkDropListDropped)="drop($event)">
                         <div *ngFor="let card of group.cards" cdkDrag>
                             <div class="card draggable my-3 px-3 py-3">
                                 <b class="card-title">
                                     {{ card.title }}
                                 </b>
                                 <div class="card-body px-0 py-0">
-                                    {{ card.description }}
+                                    <small class="text-muted">
+                                        {{ card.description }}
+                                    </small>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="group.cards?.length == 0" class="mx-3 my-3">
-                            <small class="text-muted">you can drop cards here.</small>
+                        <div *ngIf="group.cards?.length == 0" class="mx-4 my-3">
+                            <em><small class="text-muted">You can drop cards here.</small></em>
                         </div>
                     </div>
                 </div>
