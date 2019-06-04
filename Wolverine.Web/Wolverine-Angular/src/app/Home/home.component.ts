@@ -12,37 +12,74 @@ export class HomeComponent {
   SortProjectId: string;
   AnalyzeProjectId: string;
   NewProject: Project;
+  EditProjectId: string;
   IsCreatingNewProject: boolean;
   IsOpeningForSorting: boolean;
   IsOpeningForAnalysis: boolean;
+  IsOpeningForSortingFailed: boolean;
+  IsOpeningExistingProject: boolean;
+  IsCreateProjectFailed: boolean;
+  IsOpeningForAnalysisFailed: boolean;
 
   constructor(private projectService: ProjectService, private router: Router) {
     this.IsCreatingNewProject = false;
     this.IsOpeningForSorting = false;
     this.IsOpeningForAnalysis = false;
+    this.IsOpeningForSortingFailed = false;
+    this.IsOpeningForAnalysisFailed = false;
+    this.IsOpeningExistingProject = false;
     this.NewProject = new Project();
     this.NewProject.id = Guid.newGuid();
   }
 
   Sort() {
+    this.IsOpeningForSortingFailed = false;
     this.IsOpeningForSorting = true;
     this.projectService.createSort(this.SortProjectId).subscribe((sortSessionId: string) => {
-      this.router.navigateByUrl('/sort/' + sortSessionId);
-      this.IsOpeningForSorting = false;
+      if (sortSessionId == null) {
+        this.IsOpeningForSorting = false;
+        this.IsOpeningForSortingFailed = true;
+      }
+      else {
+        this.router.navigateByUrl('/sort/' + sortSessionId);
+        this.IsOpeningForSorting = false;
+      }
     });
   }
 
   Create() {
-    this.IsCreatingNewProject = true;
-    this.projectService.create(this.NewProject).subscribe((id: string) => {
-      this.router.navigateByUrl('/create/' + id);
-      this.IsCreatingNewProject = false;
-    });
+    if (this.NewProject.name == null || this.NewProject.author == null) {
+      console.log("missing fields");
+      this.IsCreateProjectFailed = true;
+    }
+    else {
+      console.log(this.NewProject);
+      this.IsCreateProjectFailed = false;
+      this.IsCreatingNewProject = true;
+      this.projectService.create(this.NewProject).subscribe((id: string) => {
+        this.router.navigateByUrl('/create/' + id);
+        this.IsCreatingNewProject = false;
+      });
+    }
+  }
+
+  Open() {
+    this.IsOpeningExistingProject = true;
+    this.router.navigateByUrl('/create/' + this.EditProjectId);
+    this.IsCreatingNewProject = false;
   }
 
   Analyze() {
     this.IsOpeningForAnalysis = true;
-    this.router.navigateByUrl('/analyze/' + this.AnalyzeProjectId);
-    this.IsOpeningForAnalysis = false;
+    this.projectService.load(this.AnalyzeProjectId).subscribe((project: Project) => {
+      if (project == null) {
+        this.IsOpeningForAnalysis = false;
+        this.IsOpeningForAnalysisFailed = true;
+      }
+      else {
+        this.router.navigateByUrl('/analyze/' + this.AnalyzeProjectId);
+        this.IsOpeningForAnalysis = false;
+      }
+    });
   }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
+using System.Xml.Serialization;
 
 namespace Wolverine.Core
 {
@@ -19,9 +21,13 @@ namespace Wolverine.Core
 
         public string ProjectId { get; set; }
         public Project ReferencedProject { get; set; }
+
+        [JsonIgnore]
+        [XmlIgnore]
+
         public IList<KeyValuePair<Card, Tuple<string, string>[]>> CardGroupMap { get; set; }
 
-        [NotMapped]
+
         public IList<KeyValuePair<Card, GroupMap[]>> CardGroupResolvedMap { get; set; }
 
         public void UpdateMap(SortSession[] sortSessions)

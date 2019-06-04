@@ -2,16 +2,16 @@
     <div class="container">
         <div class="navbar-header">
             <div class="media">
-                <img src="../../assets/noun_Wolverine_68964.png" class="align-self-start mr-3 mt-2" width="32"
+                <img src="../../assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3 mt-2" width="32"
                     height="32" alt="Wolverine by Yi Chen from the Noun Project">
                 <div class="media-body">
-                    <a class="navbar-brand" href="/">Wolverine.Angular</a>
+                    <a class="navbar-brand text-primary" href="/">Wolverine.Angular</a>
                 </div>
             </div>
         </div>
         <ul class="nav nav-pills nav-fill">
             <li class="nav-item ml-3">
-                <button type="button" class="btn btn-primary" (click)="onSave()">
+                <button *ngIf="!ActiveProject.isPublished" type="button" class="btn btn-primary" (click)="onPublish()">
                     <table>
                         <tbody>
                             <tr>
@@ -44,66 +44,75 @@
                 {{ ActiveProject.creationDate | date: 'dd MMM yyyy' }}</small><br />
         </div>
 
-        <!-- Help -->
-        <div class="alert alert-warning mt-5" role="alert">
-            <h4 class="alert-heading">Help</h4>
-            <ol class="px-3">
-                <li>Drag cards from the
-                    <em>Unsorted Group (blue)</em> and drop them on to any of the
-                    <em>Sorted Groups (gray).</em>
-                </li>
-                <li>Save and publish the changes.</li>
-                <li>You may <a href="./sort/{{ Id }}">save this link</a> and access this session anytime.</li>
-            </ol>
+        <div *ngIf="ActiveProject.isPublished" class="alert alert-success mt-5" role="alert">
+            <h4 class="alert-heading">Thanks {{ ActiveSortSession.participant }}!</h4>
+            Thank you for participating in this activity. Your way of sorting has been recorded successfully. The author will now be able to see how you have sorted the cards. 
         </div>
 
-        <!-- Participant Metadata -->
-        <div class="mt-5">
-            <form>
-                <div class="form-group">
-                    <label class="form-control-lg px-0" for="participant">Participant:</label>
-                    <input type="text" [(ngModel)]="ActiveSortSession.participant" name="participantMetadata"
-                        class="form-control-lg field-with-default-value" placeholder="What's your name?"> <br />
-                    <small hidden class="text-muted">This session is last updated on:
-                        {{ ActiveSortSession.sessionInstance  | date: 'dd MMM yyyy' }}
-                    </small>
-                </div>
-            </form>
-        </div>
+        <div *ngIf="!ActiveProject.isPublished">
 
-        <!-- Groups and Cards -->
-        <div [ngClass]="group.isUnsorted ? 'row' : 'float-left col-3 px-0 py-0 ml-0 mr-3 mt-0 mb-3'"
-            *ngFor="let group of ActiveProject.groups">
-            <div [ngClass]="group.isUnsorted ? 'col-12' : ''">
-                <div [ngClass]="group.isUnsorted ? 'card border-primary my-3' : 'card my-3'">
+            <!-- Help -->
+            <div class="alert alert-warning mt-5" role="alert">
+                <h4 class="alert-heading">Help</h4>
+                <ol class="px-3">
+                    <li>Drag cards from the
+                        <em>Unsorted Group (blue)</em> and drop them on to any of the
+                        <em>Sorted Groups (gray).</em>
+                    </li>
+                    <li>Save and publish the changes.</li>
+                    <li>Remember: There is no right or wrong way of sorting!</li>
+                </ol>
+            </div>
 
-                    <div
-                        [ngClass]="group.isUnsorted ? 'card-header bg-primary text-white' : 'card-header bg-light text-dark'">
-                        <h5 class="card-title">{{ group.title }}</h5>
-                        <div class="Card-body mx-0 my-0"><small class="">{{ group.description }}</small></div>
+            <!-- Participant Metadata -->
+            <div class="mt-5">
+                <form>
+                    <div class="form-group">
+                        <label class="form-control-lg px-0" for="participant">Participant:</label>
+                        <input type="text" [(ngModel)]="ActiveSortSession.participant" name="participantMetadata"
+                            class="form-control-lg field-with-default-value" placeholder="What's your name?"> <br />
+                        <small hidden class="text-muted">This session is last updated on:
+                            {{ ActiveSortSession.sessionInstance  | date: 'dd MMM yyyy' }}
+                        </small>
                     </div>
+                </form>
+            </div>
 
-                    <div cdkDropList id="{{ group.id }}" [cdkDropListData]="group.cards"
-                        [cdkDropListConnectedTo]="Groups" class="card-deck px-3 py-3"
-                        (cdkDropListDropped)="drop($event)">
-                        <div *ngFor="let card of group.cards" cdkDrag>
-                            <div class="card draggable my-3 px-3 py-3">
-                                <b class="card-title">
-                                    {{ card.title }}
-                                </b>
-                                <div class="card-body px-0 py-0">
-                                    <small class="text-muted">
-                                        {{ card.description }}
-                                    </small>
+            <!-- Groups and Cards -->
+            <div [ngClass]="group.isUnsorted ? 'row' : 'float-left col-3 px-0 py-0 ml-0 mr-3 mt-0 mb-3'"
+                *ngFor="let group of ActiveProject.groups">
+                <div [ngClass]="group.isUnsorted ? 'col-12' : ''">
+                    <div [ngClass]="group.isUnsorted ? 'card border-primary my-3' : 'card my-3'">
+
+                        <div
+                            [ngClass]="group.isUnsorted ? 'card-header bg-primary text-white' : 'card-header bg-light text-dark'">
+                            <h5 class="card-title">{{ group.title }}</h5>
+                            <div class="Card-body mx-0 my-0"><small class="">{{ group.description }}</small></div>
+                        </div>
+
+                        <div cdkDropList id="{{ group.id }}" [cdkDropListData]="group.cards"
+                            [cdkDropListConnectedTo]="Groups" class="card-deck px-3 py-3"
+                            (cdkDropListDropped)="drop($event)">
+                            <div *ngFor="let card of group.cards" cdkDrag>
+                                <div class="card draggable my-3 px-3 py-3">
+                                    <b class="card-title">
+                                        {{ card.title }}
+                                    </b>
+                                    <div class="card-body px-0 py-0">
+                                        <small class="text-muted">
+                                            {{ card.description }}
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div *ngIf="group.cards?.length == 0" class="mx-4 my-3">
-                            <em><small class="text-muted">You can drop cards here.</small></em>
+                            <div *ngIf="group.cards?.length == 0" class="mx-4 my-3">
+                                <em><small class="text-muted">You can drop cards here.</small></em>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </div>

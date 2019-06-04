@@ -84,6 +84,7 @@ namespace Wolverine.Core
         public string Author { get; set; }
         public bool IsSessionZero { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public bool IsPublished { get; set; }
         public bool IsLocked { get; set; }
         public ICollection<Group> Groups { get; set; }
 

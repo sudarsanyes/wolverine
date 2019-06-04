@@ -12,6 +12,7 @@ export class AnalyzeComponent {
 
   ActiveSortResult: SortResult;
   ActiveProject: Project;
+  IsOpeningForAnalyzingFailed: boolean;
 
   constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute) {
     // Reserved. 
@@ -19,12 +20,14 @@ export class AnalyzeComponent {
 
   ngOnInit() {
     var id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
-    this.projectService.loadResult(id).subscribe((sortResult: SortResult) =>
-    {
-      console.log(sortResult);
-      this.ActiveSortResult = sortResult;
-      this.ActiveProject = sortResult.referencedProject;
+    this.projectService.loadResult(id).subscribe((sortResult: SortResult) => {
+      if (sortResult == null) {
+        this.IsOpeningForAnalyzingFailed = true;
+      }
+      else {
+        this.ActiveSortResult = sortResult;
+        this.ActiveProject = sortResult.referencedProject;
+      }
     });
   }
 }

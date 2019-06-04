@@ -9,7 +9,7 @@ using Wolverine.Service.Model;
 namespace Wolverine.Service.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20190603192417_InitialCreate")]
+    [Migration("20190604111624_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,8 @@ namespace Wolverine.Service.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsLocked");
+
+                    b.Property<bool>("IsPublished");
 
                     b.Property<bool>("IsSessionZero");
 

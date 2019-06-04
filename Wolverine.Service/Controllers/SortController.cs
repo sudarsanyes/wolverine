@@ -49,7 +49,15 @@ namespace Wolverine.Service.Controllers
         [HttpGet("{projectId}")]
         public string Create(string projectId)
         {
-            return projectManager.CreateSort(projectId);
+            using (var context = new ProjectContext())
+            {
+                var project = context.Projects.FirstOrDefault(x => x.Id == projectId);
+                if (project != null && !project.IsLocked)
+                {
+                    return projectManager.CreateSort(projectId);
+                }
+                return null;
+            }
         }
 
         [HttpPost()]

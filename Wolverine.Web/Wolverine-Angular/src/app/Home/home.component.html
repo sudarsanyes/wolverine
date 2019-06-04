@@ -1,8 +1,8 @@
 <div class="jumbotron">
     <div class="container">
         <div class="media">
-            <img src="../../assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62" height="62"
-                alt="Wolverine by Yi Chen from the Noun Project">
+            <img src="../../assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62"
+                height="62" alt="Wolverine by Yi Chen from the Noun Project">
             <div class="media-body">
                 <h1>Wolverine</h1>
             </div>
@@ -11,31 +11,38 @@
 </div>
 
 <div class="container">
+
     <!-- Create -->
     <div style="margin-bottom: 7em;">
-        <span class="h4 text-dark"><i class="far fa-file text-dark mr-3"></i>Create a project</span> <br />
+        <span class="h4 text-dark"><i class="far fa-file text-primary mr-3"></i>Create</span> <br />
         <p class="text-muted">Use this option to create a new project which can then be used to sort and analyze.</p>
         <div class="row">
             <div class="col-7">
                 <form>
                     <div class="form-group">
                         <label for="projectName">Project Name</label>
-                        <input [(ngModel)]="NewProject.Name" name="projectName" type="text" class="form-control"
+                        <input [(ngModel)]="NewProject.name" name="projectName" type="text" class="form-control"
                             aria-describedby="Project Name" placeholder="Name your project">
                         <small id="newProjectHelp" class="form-text text-muted">Avoid using space and special
-                            characters.</small>
+                            characters. This cannot be modified later on.</small>
                     </div>
                     <div class="form-group">
                         <label for="authorName">Author Name</label>
-                        <input [(ngModel)]="NewProject.Author" name="author" type="text" class="form-control"
+                        <input [(ngModel)]="NewProject.author" name="author" type="text" class="form-control"
                             aria-describedby="Author Name" placeholder="What's your name?">
+                        <small id="newProjectHelp" class="form-text text-muted">This cannot be modified later
+                            on.</small>
+                    </div>
+                    <div *ngIf="IsCreateProjectFailed" class="alert alert-danger alert-dismissible fade show my-3"
+                        role="alert">
+                        Project Name and Author cannot be empty. Make sure that you've updated them.
                     </div>
                     <button type="button" class="btn btn-secondary" (click)="Create()">
                         <table>
                             <tbody>
                                 <tr>
                                     <td class="align-middle">
-                                        <span *ngIf="!IsCreatingNewProject">Create</span>
+                                        <span *ngIf="!IsCreatingNewProject">Create New</span>
                                         <span *ngIf="IsCreatingNewProject">Creating</span>
                                     </td>
                                     <td class="align-middle">
@@ -55,7 +62,7 @@
 
     <!-- Sort -->
     <div style="margin-bottom: 7em;">
-        <span class="h4 text-dark"><i class="far fa-clone text-dark mr-3"></i>Participate</span> <br />
+        <span class="h4 text-dark"><i class="far fa-clone text-primary mr-3"></i>Participate</span> <br />
         <p class="text-muted">Use this option as a participant to sort cards in an existing project.</p>
         <div class="row">
             <div class="col-7">
@@ -86,6 +93,12 @@
                             </tbody>
                         </table>
                     </button>
+
+                    <div *ngIf="IsOpeningForSortingFailed" class="alert alert-danger alert-dismissible fade show my-3"
+                        role="alert">
+                        Unable to find the project. Make sure that you are using the correct id.
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -93,7 +106,7 @@
 
     <!-- Sort -->
     <div style="margin-bottom: 7em;">
-        <span class="h4 text-dark"><i class="far fa-chart-bar text-dark mr-3"></i>Analyze</span> <br />
+        <span class="h4 text-dark"><i class="far fa-chart-bar text-primary mr-3"></i>Analyze</span> <br />
         <p class="text-muted">Use this option to see how participants organized the cards.</p>
         <div class="row">
             <div class="col-7">
@@ -124,6 +137,12 @@
                             </tbody>
                         </table>
                     </button>
+
+                    <div *ngIf="IsOpeningForAnalysisFailed" class="alert alert-danger alert-dismissible fade show my-3"
+                        role="alert">
+                        Unable to find the project. Make sure that you are using the correct id.
+                    </div>
+
                 </form>
             </div>
         </div>

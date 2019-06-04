@@ -18,6 +18,8 @@ export class CreateComponent {
     IsSaving: boolean;
     IsSavingSuccessful: boolean;
     IsDirty: boolean;
+    IsPublishing: boolean;
+    IsPublishingSuccessful: boolean;
 
     constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute, private clipboardService: ClipboardService, private confirmGuard: ConfirmationGuard) {
         this.NewCard = Card.getDefault();
@@ -96,7 +98,6 @@ export class CreateComponent {
 
     onSave() {
         this.IsSaving = true;
-        console.log(this.ActiveProject);
         var response = this.projectService.save(this.ActiveProject);
         response.subscribe((data: boolean) => {
             this.IsSaving = false;
@@ -107,9 +108,24 @@ export class CreateComponent {
         });
     }
 
+    onPublish() {
+        this.IsPublishing = true;
+        var userChoiceForPublishing = confirm("Remember: once published, you will not be able to add or remove cards. Are you sure you want to publish the project for participants to sort?");
+        if (userChoiceForPublishing) {
+            this.ActiveProject.isPublished = true;
+            console.log(this.ActiveProject);
+            var response = this.projectService.save(this.ActiveProject);
+            response.subscribe((data: boolean) => {
+                this.IsPublishing = false;
+                this.IsPublishingSuccessful = data;
+            });
+        }
+        this.IsPublishing = false;
+    }
+
     onShareLink() {
-        this.clipboardService.copyFromContent('http://localhost:4200/sort/' + this.ActiveProject.id);
-        alert("Link to sort the cards has been copied to your clipboard.");
+        this.clipboardService.copyFromContent(this.ActiveProject.id);
+        alert("Id of the project has been copied to your clipboard. Share it with your participant for sorting, or use it to edit in future.");
     }
 
     @HostListener('window:beforeunload')

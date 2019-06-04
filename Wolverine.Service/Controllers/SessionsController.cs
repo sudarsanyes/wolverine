@@ -52,21 +52,25 @@ namespace Wolverine.Service.Controllers
             using (var context = new ProjectContext())
             {
                 var project = projectManager.Load(id);
-                var result = new SortResult(project);
-                var associatedSessions = context.SortSessions.Where(x => x.Reference == id).Include("Project.Groups.Cards");
-                result.UpdateMap(associatedSessions.ToArray());
-                foreach (var cardMap in result.CardGroupMap)
+                if (project != null)
                 {
-                    var resolvedGroups = new List<GroupMap>();
-                    foreach (var group in cardMap.Value)
+                    var result = new SortResult(project);
+                    var associatedSessions = context.SortSessions.Where(x => x.Reference == id).Include("Project.Groups.Cards");
+                    result.UpdateMap(associatedSessions.ToArray());
+                    foreach (var cardMap in result.CardGroupMap)
                     {
-                        var resolvedGroup = context.Groups.First(x => x.Id == group.Item1);
-                        var resolvedSession = context.SortSessions.First(x => x.Id == group.Item2);
-                        resolvedGroups.Add(new GroupMap(resolvedGroup, new SortSessionInfo(resolvedSession.Id, resolvedSession.Participant)));
+                        var resolvedGroups = new List<GroupMap>();
+                        foreach (var group in cardMap.Value)
+                        {
+                            var resolvedGroup = context.Groups.First(x => x.Id == group.Item1);
+                            var resolvedSession = context.SortSessions.First(x => x.Id == group.Item2);
+                            resolvedGroups.Add(new GroupMap(resolvedGroup, new SortSessionInfo(resolvedSession.Id, resolvedSession.Participant)));
+                        }
+                        result.CardGroupResolvedMap.Add(new KeyValuePair<Card, GroupMap[]>(cardMap.Key, resolvedGroups.ToArray()));
                     }
-                    result.CardGroupResolvedMap.Add(new KeyValuePair<Card, GroupMap[]>(cardMap.Key, resolvedGroups.ToArray()));
+                    return result;
                 }
-                return result;
+                return null;
             }
         }
     }

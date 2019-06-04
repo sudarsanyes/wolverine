@@ -73,6 +73,8 @@ namespace Wolverine.Service.Migrations
 
                     b.Property<bool>("IsLocked");
 
+                    b.Property<bool>("IsPublished");
+
                     b.Property<bool>("IsSessionZero");
 
                     b.Property<string>("Name");

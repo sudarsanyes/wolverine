@@ -54,21 +54,25 @@ export class SortComponent {
     }
   }
 
-  onSave() {
+  onPublish() {
     console.log(this.ActiveSortSession);
     if (this.ActiveSortSession.participant == null) {
       alert("Participant name cannot be empty. Make sure that you have mentioned your name as the participant.");
     }
     else {
-      this.IsSaving = true;
-      var response = this.projectService.saveSort(this.ActiveSortSession);
-      response.subscribe((data: boolean) => {
-        this.IsSaving = false;
-        this.IsSavingSuccessful = data;
-        if (this.IsSavingSuccessful) {
-          this.IsDirty = false;
-        }
-      });
+      var userChoiceForPublishing = confirm("Remember: once submitted, you will not be able modify your sort. Are you sure you want to submit?");
+      if (userChoiceForPublishing) {
+        this.IsSaving = true;
+        this.ActiveSortSession.project.isPublished = true;
+        var response = this.projectService.saveSort(this.ActiveSortSession);
+        response.subscribe((data: boolean) => {
+          this.IsSaving = false;
+          this.IsSavingSuccessful = data;
+          if (this.IsSavingSuccessful) {
+            this.IsDirty = false;
+          }
+        });
+      }
     }
   }
 }

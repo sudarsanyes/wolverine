@@ -32,6 +32,8 @@ export class SimplifiedProject {
   defaultGroups: Group[];
   unsortedGroup: Group;
   sessions: SortSession[];
+  isLocked: boolean;
+  isPublished: boolean;
 
   constructor() {
     // Reserved. 
@@ -46,6 +48,8 @@ export class Project {
   isSessionZero: Boolean;
   groups: Group[];
   sessions: SortSession[];
+  isLocked: boolean;
+  isPublished: boolean;
 }
 
 export class Group {
@@ -100,12 +104,14 @@ export class Helpers {
     asProject.author = simplifiedProject.author;
     asProject.creationDate = simplifiedProject.creationDate;
     asProject.isSessionZero = simplifiedProject.isSessionZero;
+    asProject.sessions = simplifiedProject.sessions;
+    asProject.isLocked = simplifiedProject.isLocked;
+    asProject.isPublished = simplifiedProject.isPublished;
     asProject.groups = [];
     asProject.groups.push(simplifiedProject.unsortedGroup);
     for (let group of simplifiedProject.defaultGroups) {
       asProject.groups.push(group);
     }
-    asProject.sessions = simplifiedProject.sessions;
     return asProject;
   }
 }

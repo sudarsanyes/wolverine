@@ -21,7 +21,10 @@ namespace Wolverine.Core
         public Project Load(string id)
         {
             var project = storage.Load(id);
-            project.Groups = project.Groups.OrderBy(x => !x.IsUnsorted).ToList<Group>();
+            if (project != null)
+            {
+                project.Groups = project.Groups.OrderBy(x => !x.IsUnsorted).ToList<Group>();
+            }
             return project;
         }
 
@@ -72,8 +75,13 @@ namespace Wolverine.Core
 
         public string CreateSort(string projectId)
         {
-            var clonedProject = new Project(Load(projectId));
-            return storage.CreateSort(projectId, clonedProject);
+            var project = Load(projectId);
+            if (project != null)
+            {
+                var clonedProject = new Project(project);
+                return storage.CreateSort(projectId, clonedProject);
+            }
+            return null;
         }
 
         public bool SaveSort(SortSession session)

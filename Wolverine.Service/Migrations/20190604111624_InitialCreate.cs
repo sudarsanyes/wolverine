@@ -17,6 +17,7 @@ namespace Wolverine.Service.Migrations
                     Author = table.Column<string>(nullable: true),
                     IsSessionZero = table.Column<bool>(nullable: false),
                     CreationDate = table.Column<DateTimeOffset>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false),
                     IsLocked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

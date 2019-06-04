@@ -42,7 +42,7 @@ namespace Wolverine.Service.Controllers
         {
             using (var context = new ProjectContext())
             {
-                return context.Projects.Include("Groups.Cards").ToList();
+                return context.Projects.ToList();
             }
         }
 
