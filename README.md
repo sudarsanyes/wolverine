@@ -34,6 +34,8 @@ One Group contains Many Cards
 
 Refer to _**ProjectTableContext**.OnModelCreating()_ to understand the model in detail. 
 
+![entity relationship diagram](https://raw.githubusercontent.com/sudarsanyes/wolverine/master/Entities.png?token=AAAGHXQD2JMBKUI75I474XS46YOS4)
+
 #### Wolverine.Web/Wolverine-Angular
 This is an angular application that contains all the views which make up the application. 
 The application uses Angular 7 with the following dependencies. 
