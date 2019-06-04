@@ -1,3 +1,19 @@
+export class SortResult {
+  projectId: string;
+  referencedProject: Project;
+  cardGroupResolvedMap: Map<Card, GroupMap[]>;
+}
+
+export class SortSessionInfo{
+  id: string; 
+  participant: string;
+}
+
+export class GroupMap {
+  session: SortSessionInfo;
+  group: Group;
+}
+
 export class SortSession {
   id: string;
   participant: string;
@@ -15,6 +31,7 @@ export class SimplifiedProject {
   isSessionZero: Boolean;
   defaultGroups: Group[];
   unsortedGroup: Group;
+  sessions: SortSession[];
 
   constructor() {
     // Reserved. 
@@ -28,6 +45,7 @@ export class Project {
   creationDate: Date;
   isSessionZero: Boolean;
   groups: Group[];
+  sessions: SortSession[];
 }
 
 export class Group {
@@ -36,6 +54,7 @@ export class Group {
   description: string;
   isUnsorted: boolean;
   cards: Card[];
+  reference: string;
 
   static getDefault() {
     var newGroup = new Group();
@@ -52,6 +71,7 @@ export class Card {
   title: string;
   description: string;
   order: number;
+  reference: string;
 
   static getDefault() {
     var newCard = new Card();
@@ -85,6 +105,7 @@ export class Helpers {
     for (let group of simplifiedProject.defaultGroups) {
       asProject.groups.push(group);
     }
+    asProject.sessions = simplifiedProject.sessions;
     return asProject;
   }
 }

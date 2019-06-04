@@ -9,7 +9,7 @@ using Wolverine.Service.Model;
 namespace Wolverine.Service.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20190527084524_InitialCreate")]
+    [Migration("20190603192417_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,8 @@ namespace Wolverine.Service.Migrations
                     b.Property<string>("GroupId");
 
                     b.Property<int>("Order");
+
+                    b.Property<string>("Reference");
 
                     b.Property<string>("Title");
 
@@ -49,6 +51,8 @@ namespace Wolverine.Service.Migrations
 
                     b.Property<string>("ProjectId");
 
+                    b.Property<string>("Reference");
+
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
@@ -68,6 +72,8 @@ namespace Wolverine.Service.Migrations
                     b.Property<DateTimeOffset>("CreationDate");
 
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsLocked");
 
                     b.Property<bool>("IsSessionZero");
 
@@ -119,8 +125,9 @@ namespace Wolverine.Service.Migrations
             modelBuilder.Entity("Wolverine.Core.SortSession", b =>
                 {
                     b.HasOne("Wolverine.Core.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId");
+                        .WithMany("Sessions")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

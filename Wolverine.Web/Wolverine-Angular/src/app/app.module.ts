@@ -16,6 +16,7 @@ import { TestComponent } from './Test/test.component';
 import { HomeComponent } from './Home/home.component';
 import { SortComponent } from './Sort/sort.component';
 import { CreateComponent } from './Create/create.component';
+import { AnalyzeComponent } from './Analyze/analyze.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CreateComponent } from './Create/create.component';
     TestComponent, 
     HomeComponent, 
     SortComponent, 
-    CreateComponent
+    CreateComponent,
+    AnalyzeComponent
   ],
   imports: [
     NgbModule.forRoot(), 

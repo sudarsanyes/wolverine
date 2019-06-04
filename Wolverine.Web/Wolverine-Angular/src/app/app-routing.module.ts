@@ -7,6 +7,7 @@ import { HomeComponent } from './Home/home.component';
 import { SortComponent } from './Sort/sort.component';
 import { CreateComponent } from './Create/create.component';
 import { ConfirmationGuard, SortConfirmationGuard } from './Guards/confirmation.guard';
+import { AnalyzeComponent } from './Analyze/analyze.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
     path: 'create/:name', 
     component: CreateComponent, 
     canDeactivate: [ConfirmationGuard]
+  }, 
+  {
+    path: 'analyze/:id', 
+    component: AnalyzeComponent
   }
 ];
 

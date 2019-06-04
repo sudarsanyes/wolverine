@@ -42,5 +42,7 @@ export class HomeComponent {
 
   Analyze() {
     this.IsOpeningForAnalysis = true;
+    this.router.navigateByUrl('/analyze/' + this.AnalyzeProjectId);
+    this.IsOpeningForAnalysis = false;
   }
 }

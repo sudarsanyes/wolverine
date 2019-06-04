@@ -55,6 +55,7 @@ export class SortComponent {
   }
 
   onSave() {
+    console.log(this.ActiveSortSession);
     if (this.ActiveSortSession.participant == null) {
       alert("Participant name cannot be empty. Make sure that you have mentioned your name as the participant.");
     }

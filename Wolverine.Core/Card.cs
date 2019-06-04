@@ -15,6 +15,7 @@ namespace Wolverine.Core
             Title = copy.Title;
             Description = copy.Description;
             Order = copy.Order;
+            Reference = copy.Id;
         }
 
         public Card()
@@ -39,5 +40,6 @@ namespace Wolverine.Core
         public string Title { get; set; }
         public string Description { get; set; }
         public int Order { get; set; }
+        public string Reference { get; set; }
     }
 }

@@ -99,6 +99,7 @@ namespace Wolverine.Service.Model
                 var sortSession = new SortSession()
                 {
                     Project = clonedProject,
+                    ProjectId = clonedProject.Id,
                     Reference = projectId
                 };
                 dbContext.SortSessions.Add(sortSession);
@@ -111,6 +112,26 @@ namespace Wolverine.Service.Model
         {
             using (var dbContext = new ProjectContext())
             {
+                // For some reason, the default group still seems to contain all the cards. 
+                // Make sure to remove all the cards from the default or unsorted group. 
+                session.Project.Groups.First(x => x.IsUnsorted == true).Cards.Clear();
+
+                // Save the cloned project. 
+                var existingProject = dbContext.Projects.FirstOrDefault(x => x.Id == session.Project.Id);
+                if (existingProject == null)
+                {
+                    dbContext.Add(session.Project);
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    dbContext.Remove(existingProject);
+                    dbContext.SaveChanges();
+                    dbContext.Add(session.Project);
+                    dbContext.SaveChanges();
+                }
+
+                // Save the sort session. 
                 var existingSession = dbContext.SortSessions.FirstOrDefault(x => x.Id == session.Id);
                 if (existingSession == null)
                 {
@@ -132,7 +153,8 @@ namespace Wolverine.Service.Model
         {
             using (var dbContext = new ProjectContext())
             {
-                var existingSession = dbContext.SortSessions.Include("Project.Groups.Cards").FirstOrDefault(x => x.Id == id);
+                var existingSession = dbContext.SortSessions.FirstOrDefault(x => x.Id == id);
+                existingSession.Project = dbContext.Projects.Include("Groups.Cards").FirstOrDefault(x => x.Id == existingSession.ProjectId);
                 existingSession.Project.Groups = existingSession.Project.Groups.OrderBy(x => !x.IsUnsorted).ToList<Group>();
                 return existingSession;
             }

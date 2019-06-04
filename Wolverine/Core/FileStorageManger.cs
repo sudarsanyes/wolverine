@@ -58,5 +58,10 @@ namespace Wolverine.Core
         {
             throw new NotImplementedException();
         }
+
+        public override SortSession LoadSort(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

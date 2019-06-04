@@ -16,7 +16,8 @@ namespace Wolverine.Service.Migrations
                     Description = table.Column<string>(nullable: true),
                     Author = table.Column<string>(nullable: true),
                     IsSessionZero = table.Column<bool>(nullable: false),
-                    CreationDate = table.Column<DateTimeOffset>(nullable: false)
+                    CreationDate = table.Column<DateTimeOffset>(nullable: false),
+                    IsLocked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,6 +32,7 @@ namespace Wolverine.Service.Migrations
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IsUnsorted = table.Column<bool>(nullable: false),
+                    Reference = table.Column<string>(nullable: true),
                     ProjectId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -51,8 +53,8 @@ namespace Wolverine.Service.Migrations
                     Id = table.Column<string>(nullable: false),
                     Comments = table.Column<string>(nullable: true),
                     Participant = table.Column<string>(nullable: true),
-                    Reference = table.Column<string>(nullable: true),
                     ProjectId = table.Column<string>(nullable: true),
+                    Reference = table.Column<string>(nullable: true),
                     SessionInstance = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
@@ -63,7 +65,7 @@ namespace Wolverine.Service.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,6 +76,7 @@ namespace Wolverine.Service.Migrations
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Order = table.Column<int>(nullable: false),
+                    Reference = table.Column<string>(nullable: true),
                     GroupId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

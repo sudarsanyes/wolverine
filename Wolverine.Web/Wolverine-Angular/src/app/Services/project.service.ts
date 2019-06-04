@@ -21,7 +21,7 @@ export class ProjectService {
         return this.http.post("https://localhost:44314/api/projects/create/", newProject, { responseType: 'text' });
     }
 
-    public save(simplifiedProject: SimplifiedProject) { 
+    public save(simplifiedProject: SimplifiedProject) {
         var project = Helpers.toProject(simplifiedProject);
         return this.http.post("https://localhost:44314/api/projects/upload/", project);
     }
@@ -34,7 +34,11 @@ export class ProjectService {
         return this.http.get("https://localhost:44314/api/sort/download/" + id);
     }
 
-    public saveSort(sortSession: SortSession) { 
+    public saveSort(sortSession: SortSession) {
         return this.http.post("https://localhost:44314/api/sort/upload/", sortSession);
+    }
+
+    public loadResult(id: string) {
+        return this.http.get("https://localhost:44314/api/sessions/analyze/" + id);
     }
 }

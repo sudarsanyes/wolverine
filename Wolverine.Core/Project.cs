@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Linq;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Wolverine.Core
 {
@@ -83,6 +84,7 @@ namespace Wolverine.Core
         public string Author { get; set; }
         public bool IsSessionZero { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public bool IsLocked { get; set; }
         public ICollection<Group> Groups { get; set; }
 
         [XmlIgnore]
@@ -103,6 +105,26 @@ namespace Wolverine.Core
             {
                 return Groups.Where(x => x.IsUnsorted == false);
             }
+        }
+
+        [JsonIgnore]
+        [XmlIgnore]
+        public IEnumerable<SortSession> Sessions { get; set; }
+
+        public string FindReferencedGroup(Card card)
+        {
+            string reference = null;
+            foreach (var group in Groups)
+            {
+                // A card can be present only in one group. Get that first group. 
+                var foundCard = group.Cards.FirstOrDefault(x => x.Reference == card.Id);
+                if (foundCard != null)
+                {
+                    reference = group.Reference;
+                    break;
+                }
+            }
+            return reference;
         }
     }
 

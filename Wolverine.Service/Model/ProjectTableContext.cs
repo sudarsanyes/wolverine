@@ -28,6 +28,7 @@ namespace Wolverine.Service.Model
             //modelBuilder.Entity<SortSession>().HasOne(x => x.Project);
             modelBuilder.Entity<Group>().HasMany(x => x.Cards).WithOne().OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Project>().HasMany(x => x.Groups).WithOne().OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<SortSession>().HasOne(x => x.Project).WithMany(y => y.Sessions).OnDelete(DeleteBehavior.Cascade);
 
             //modelBuilder.Entity<Group>().HasOne(x => x.Project).WithMany(x => x.DefaultGroups).OnDelete(DeleteBehavior.Cascade).HasForeignKey(x => x.Project);
             //modelBuilder.Entity<Card>().HasOne(x => x.Group).WithMany(x => x.Cards).OnDelete(DeleteBehavior.Cascade).HasForeignKey(x => x.Group);

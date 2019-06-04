@@ -20,6 +20,7 @@ namespace Wolverine.Core
             IsUnsorted = copy.IsUnsorted;
             Title = copy.Title;
             Description = copy.Description;
+            Reference = copy.Id;
         }
 
         public Group()
@@ -68,5 +69,6 @@ namespace Wolverine.Core
         public string Description { get; set; }
         public bool IsUnsorted { get; set; }
         public ICollection<Card> Cards { get; set; }
+        public string Reference { get; set; }
     }
 }
