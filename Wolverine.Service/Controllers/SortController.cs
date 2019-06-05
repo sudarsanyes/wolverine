@@ -19,12 +19,10 @@ namespace Wolverine.Service.Controllers
     [ApiController]
     public class SortController : Controller
     {
-        private IHostEnvironment env;
         private ProjectManager projectManager;
 
-        public SortController(IHostEnvironment env)
+        public SortController()
         {
-            this.env = env;
             projectManager = new ProjectManager(new EFStorageManager());
         }
 

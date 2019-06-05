@@ -19,12 +19,10 @@ namespace Wolverine.Service.Controllers
     [ApiController]
     public class SessionsController : Controller
     {
-        private IHostEnvironment env;
         private ProjectManager projectManager;
 
-        public SessionsController(IHostEnvironment env)
+        public SessionsController()
         {
-            this.env = env;
             projectManager = new ProjectManager(new EFStorageManager());
         }
 
