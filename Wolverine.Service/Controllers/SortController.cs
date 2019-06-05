@@ -52,7 +52,7 @@ namespace Wolverine.Service.Controllers
             using (var context = new ProjectContext())
             {
                 var project = context.Projects.FirstOrDefault(x => x.Id == projectId);
-                if (project != null && !project.IsLocked)
+                if (project != null && project.IsPublished && project.IsSessionZero && !project.IsLocked)
                 {
                     return projectManager.CreateSort(projectId);
                 }

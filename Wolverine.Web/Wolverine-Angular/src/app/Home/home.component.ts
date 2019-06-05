@@ -72,7 +72,7 @@ export class HomeComponent {
   Analyze() {
     this.IsOpeningForAnalysis = true;
     this.projectService.load(this.AnalyzeProjectId).subscribe((project: Project) => {
-      if (project == null) {
+      if (project == null || !project.isSessionZero || !project.isPublished) {
         this.IsOpeningForAnalysis = false;
         this.IsOpeningForAnalysisFailed = true;
       }

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="navbar-header">
             <div class="media">
-                <img src="../../assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3 mt-2" width="32"
+                <img src="./assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3 mt-2" width="32"
                     height="32" alt="Wolverine by Yi Chen from the Noun Project">
                 <div class="media-body">
                     <a class="navbar-brand text-primary" href="/">Wolverine.Angular</a>
@@ -14,7 +14,7 @@
                 <button type="button" class="btn btn-link" (click)="onShareLink()">Copy Id for Sorting</button>
             </li>
             <li class="nav-item ml-3">
-                <button *ngIf="!ActiveProject.isPublished" type="button" class="btn btn-link" (click)="onSave()">
+                <button *ngIf="!ActiveProject.isPublished && IsDirty" type="button" class="btn btn-link" (click)="onSave()">
                     <table>
                         <tbody>
                             <tr>
@@ -34,7 +34,7 @@
                 </button>
             </li>
             <li class="nav-item ml-3">
-                <button *ngIf="!ActiveProject.isPublished" type="button" class="btn btn-primary" (click)="onPublish()">
+                <button *ngIf="!ActiveProject.isPublished && !IsDirty" type="button" class="btn btn-primary" (click)="onPublish()">
                     <table>
                         <tbody>
                             <tr>
@@ -50,7 +50,41 @@
                     </table>
                 </button>
             </li>
-        </ul>
+            <li class="nav-item ml-3">
+                <button *ngIf="ActiveProject.isPublished && !ActiveProject.isLocked" type="button" class="btn btn-danger" (click)="onLock()">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle">Lock</td>
+                                <td class="align-middle">
+                                    <div *ngIf="IsLocking" class="spinner-border spinner-border-sm mx-3"
+                                        role="status">
+                                        <span class="sr-only">Locking...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </button>
+            </li>
+            <li class="nav-item ml-3">
+                <button *ngIf="ActiveProject.isPublished && ActiveProject.isLocked" type="button" class="btn btn-danger" (click)="onUnlock()">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle">Unlock</td>
+                                <td class="align-middle">
+                                    <div *ngIf="IsUnlocking" class="spinner-border spinner-border-sm mx-3"
+                                        role="status">
+                                        <span class="sr-only">Unlocking...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </button>
+            </li>
+                </ul>
 
     </div>
 </nav>

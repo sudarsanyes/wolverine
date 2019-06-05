@@ -4,6 +4,7 @@ import { Group, Card, Guid, SimplifiedProject } from '../Contracts/Contracts';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard'
 import { ConfirmationGuard } from '../Guards/confirmation.guard';
+import { delay } from 'q';
 
 @Component({
     selector: 'create',
@@ -20,6 +21,12 @@ export class CreateComponent {
     IsDirty: boolean;
     IsPublishing: boolean;
     IsPublishingSuccessful: boolean;
+
+    IsLocking: boolean;
+    IsLockingSuccessful: boolean;
+    IsUnlocking: boolean;
+    IsUnlockingSuccessful: boolean;
+
 
     constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute, private clipboardService: ClipboardService, private confirmGuard: ConfirmationGuard) {
         this.NewCard = Card.getDefault();
@@ -126,6 +133,30 @@ export class CreateComponent {
     onShareLink() {
         this.clipboardService.copyFromContent(this.ActiveProject.id);
         alert("Id of the project has been copied to your clipboard. Share it with your participant for sorting, or use it to edit in future.");
+    }
+
+    onLock() {
+        this.ActiveProject.isLocked = true;
+        this.IsLocking = true;
+        var response = this.projectService.save(this.ActiveProject);
+        response.subscribe((data: boolean) => {
+            this.IsLockingSuccessful = data;
+            if (this.IsLockingSuccessful) {
+                this.IsLocking = false;
+            }
+        });
+    }
+
+    onUnlock() {
+        this.ActiveProject.isLocked = false;
+        this.IsUnlocking = true;
+        var response = this.projectService.save(this.ActiveProject);
+        response.subscribe((data: boolean) => {
+            this.IsUnlockingSuccessful = data;
+            if (this.IsUnlockingSuccessful) {
+                this.IsUnlocking = false;
+            }
+        });
     }
 
     @HostListener('window:beforeunload')

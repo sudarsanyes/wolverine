@@ -52,7 +52,7 @@ namespace Wolverine.Service.Controllers
             using (var context = new ProjectContext())
             {
                 var project = projectManager.Load(id);
-                if (project != null)
+                if (project != null && project.IsPublished && project.IsSessionZero)
                 {
                     var result = new SortResult(project);
                     var associatedSessions = context.SortSessions.Where(x => x.Reference == id).Include("Project.Groups.Cards");

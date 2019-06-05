@@ -1,7 +1,7 @@
 <div class="jumbotron">
     <div class="container">
         <div class="media">
-            <img src="../../assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62"
+            <img src="./assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62"
                 height="62" alt="Wolverine by Yi Chen from the Noun Project">
             <div class="media-body">
                 <h1>Wolverine</h1>
@@ -35,7 +35,7 @@
                     </div>
                     <div *ngIf="IsCreateProjectFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Project Name and Author cannot be empty. Make sure that you've updated them.
+                        <strong>Project Name</strong> and <strong>Author</strong> cannot be empty. Make sure that you've updated them.
                     </div>
                     <button type="button" class="btn btn-secondary" (click)="Create()">
                         <table>
@@ -96,7 +96,7 @@
 
                     <div *ngIf="IsOpeningForSortingFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Unable to find the project. Make sure that you are using the correct id.
+                        Unable to find the project. Make sure that you are using the correct <strong>Project Id</strong>.
                     </div>
 
                 </form>
@@ -140,7 +140,7 @@
 
                     <div *ngIf="IsOpeningForAnalysisFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Unable to find the project. Make sure that you are using the correct id.
+                        Unable to find the project. Make sure that you are using the correct <strong>Project Id</strong>.
                     </div>
 
                 </form>
