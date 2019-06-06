@@ -1,8 +1,8 @@
 <div class="jumbotron">
     <div class="container">
         <div class="media">
-            <img src="./assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62"
-                height="62" alt="Wolverine by Yi Chen from the Noun Project">
+            <img src="./assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3" width="62" height="62"
+                alt="Wolverine by Yi Chen from the Noun Project">
             <div class="media-body">
                 <h1>Wolverine</h1>
             </div>
@@ -12,12 +12,16 @@
 
 <div class="container">
 
-    <!-- Create -->
-    <div style="margin-bottom: 7em;">
-        <span class="h4 text-dark"><i class="far fa-file text-primary mr-3"></i>Create</span> <br />
-        <p class="text-muted">Use this option to create a new project which can then be used to sort and analyze.</p>
-        <div class="row">
-            <div class="col-7">
+    <div class="row">
+
+        <div class="col-md-5 mr-5">
+
+            <!-- Create -->
+            <div style="margin-bottom: 7em;">
+                <span class="h4 text-dark"><i class="far fa-file text-primary mr-3"></i>Create</span> <br />
+                <p class="text-muted">Use this option to create a new project which can then be used to sort and
+                    analyze.
+                </p>
                 <form>
                     <div class="form-group">
                         <label for="projectName">Project Name</label>
@@ -35,7 +39,8 @@
                     </div>
                     <div *ngIf="IsCreateProjectFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        <strong>Project Name</strong> and <strong>Author</strong> cannot be empty. Make sure that you've updated them.
+                        <strong>Project Name</strong> and <strong>Author</strong> cannot be empty. Make sure that you've
+                        updated them.
                     </div>
                     <button type="button" class="btn btn-secondary" (click)="Create()">
                         <table>
@@ -57,15 +62,11 @@
                     </button>
                 </form>
             </div>
-        </div>
-    </div>
 
-    <!-- Sort -->
-    <div style="margin-bottom: 7em;">
-        <span class="h4 text-dark"><i class="far fa-clone text-primary mr-3"></i>Participate</span> <br />
-        <p class="text-muted">Use this option as a participant to sort cards in an existing project.</p>
-        <div class="row">
-            <div class="col-7">
+            <!-- Sort -->
+            <div style="margin-bottom: 7em;">
+                <span class="h4 text-dark"><i class="far fa-clone text-primary mr-3"></i>Participate</span> <br />
+                <p class="text-muted">Use this option as a participant to sort cards in an existing project.</p>
                 <form>
                     <div class="form-group">
                         <label for="projectId">Project Id</label>
@@ -96,20 +97,17 @@
 
                     <div *ngIf="IsOpeningForSortingFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Unable to find the project. Make sure that you are using the correct <strong>Project Id</strong>.
+                        Unable to find the project. Make sure that you are using the correct <strong>Project
+                            Id</strong>.
                     </div>
 
                 </form>
             </div>
-        </div>
-    </div>
 
-    <!-- Sort -->
-    <div style="margin-bottom: 7em;">
-        <span class="h4 text-dark"><i class="far fa-chart-bar text-primary mr-3"></i>Analyze</span> <br />
-        <p class="text-muted">Use this option to see how participants organized the cards.</p>
-        <div class="row">
-            <div class="col-7">
+            <!-- Sort -->
+            <div style="margin-bottom: 7em;">
+                <span class="h4 text-dark"><i class="far fa-chart-bar text-primary mr-3"></i>Analyze</span> <br />
+                <p class="text-muted">Use this option to see how participants organized the cards.</p>
                 <form>
                     <div class="form-group">
                         <label for="projectId">Project Id</label>
@@ -140,12 +138,58 @@
 
                     <div *ngIf="IsOpeningForAnalysisFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Unable to find the project. Make sure that you are using the correct <strong>Project Id</strong>.
+                        Unable to find the project. Make sure that you are using the correct <strong>Project
+                            Id</strong>.
                     </div>
 
                 </form>
             </div>
-        </div>
-    </div>
 
+        </div>
+
+        <div class="col-md-5">
+
+            <div class="alert alert-warning">
+                <div class="mb-5">
+                    <blockquote class="blockquote">
+                        <h4>Card Sorting</h4>
+                        <p class="mb-0">Card sorting is a method used to help design or evaluate the information
+                            architecture of
+                            a site. In a card sorting session, participants organize topics into categories that make
+                            sense to
+                            them and they may also help you label these groups.</p>
+                        <footer class="blockquote-footer">Definition from
+                            <cite title="Source Title"><a
+                                    href="https://www.usability.gov/how-to-and-tools/methods/card-sorting.html">Usability.gov</a></cite>
+                        </footer>
+                    </blockquote>
+                    <p class="lead text-muted">
+                        To conduct a card sort, you can use actual cards, pieces of paper, or one of
+                        several online
+                        card-sorting software tools. And this is one such tool!
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <h4>How to use Wolverine</h4>
+                    <em>Wolverine</em> provides a simple workflow to do card sorting.
+                    <ul class="list-unstyled">
+                        <li><b>Create</b> a project by defining Cards and Groups.</li>
+                        <li><b>Save</b> and <b>Publish</b> it.</li>
+                        <li><b>Share</b> the Id with participants.</li>
+                        <li>Let the Participants <b>Sort</b>.</li>
+                        <li>And finally, <b>Analyze</b> the results and conclude the information architecture.</li>
+                    </ul>
+                    <img class="w-100" src="./assets/workflow.png" />
+                </div>
+
+                <div class="small text-muted">
+                    Wolverine is licensed under <a href="https://github.com/sudarsanyes/wolverine/blob/master/LICENSE">MIT</a>. <br />
+                    If you encounter bugs don't forget to <a href="https://github.com/sudarsanyes/wolverine/issues">report</a> them. <br />
+                    To collaborate, contact sudarsanyes[at]hotmail[dot]com.
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
