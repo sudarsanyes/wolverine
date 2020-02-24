@@ -10,35 +10,35 @@ export class ProjectService {
     }
 
     public load(id: string) {
-        return this.http.get("https://localhost:44314/api/projects/download/" + id);
+        return this.http.get("https://wolverineservice.azurewebsites.net/api/projects/download/" + id);
     }
 
     public createFromName(name: string) {
-        return this.http.get("https://localhost:44314/api/projects/create/" + name, { responseType: 'text' });
+        return this.http.get("https://wolverineservice.azurewebsites.net/api/projects/create/" + name, { responseType: 'text' });
     }
 
     public create(newProject: Project) {
-        return this.http.post("https://localhost:44314/api/projects/create/", newProject, { responseType: 'text' });
+        return this.http.post("https://wolverineservice.azurewebsites.net/api/projects/create/", newProject, { responseType: 'text' });
     }
 
     public save(simplifiedProject: SimplifiedProject) {
         var project = Helpers.toProject(simplifiedProject);
-        return this.http.post("https://localhost:44314/api/projects/upload/", project);
+        return this.http.post("https://wolverineservice.azurewebsites.net/api/projects/upload/", project);
     }
 
     public createSort(projectId: string) {
-        return this.http.get("https://localhost:44314/api/sort/create/" + projectId, { responseType: 'text' });
+        return this.http.get("https://wolverineservice.azurewebsites.net/api/sort/create/" + projectId, { responseType: 'text' });
     }
 
     public loadSort(id: string) {
-        return this.http.get("https://localhost:44314/api/sort/download/" + id);
+        return this.http.get("https://wolverineservice.azurewebsites.net/api/sort/download/" + id);
     }
 
     public saveSort(sortSession: SortSession) {
-        return this.http.post("https://localhost:44314/api/sort/upload/", sortSession);
+        return this.http.post("https://wolverineservice.azurewebsites.net/api/sort/upload/", sortSession);
     }
 
     public loadResult(id: string) {
-        return this.http.get("https://localhost:44314/api/sessions/analyze/" + id);
+        return this.http.get("https://wolverineservice.azurewebsites.net/api/sessions/analyze/" + id);
     }
 }

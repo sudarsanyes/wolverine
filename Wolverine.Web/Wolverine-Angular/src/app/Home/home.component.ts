@@ -20,6 +20,8 @@ export class HomeComponent {
   IsOpeningExistingProject: boolean;
   IsCreateProjectFailed: boolean;
   IsOpeningForAnalysisFailed: boolean;
+  IsSortProjectIdMissing: boolean;
+  IsAnalyzeProjectIdMissing: boolean;
 
   constructor(private projectService: ProjectService, private router: Router) {
     this.IsCreatingNewProject = false;
@@ -28,23 +30,31 @@ export class HomeComponent {
     this.IsOpeningForSortingFailed = false;
     this.IsOpeningForAnalysisFailed = false;
     this.IsOpeningExistingProject = false;
+    this.IsSortProjectIdMissing = false;
+    this.IsAnalyzeProjectIdMissing = false;
     this.NewProject = new Project();
     this.NewProject.id = Guid.newGuid();
   }
 
   Sort() {
-    this.IsOpeningForSortingFailed = false;
-    this.IsOpeningForSorting = true;
-    this.projectService.createSort(this.SortProjectId).subscribe((sortSessionId: string) => {
-      if (sortSessionId == null) {
-        this.IsOpeningForSorting = false;
-        this.IsOpeningForSortingFailed = true;
-      }
-      else {
-        this.router.navigateByUrl('/sort/' + sortSessionId);
-        this.IsOpeningForSorting = false;
-      }
-    });
+    if (this.SortProjectId == null) {
+      this.IsSortProjectIdMissing = true;
+    }
+    else {
+      this.IsSortProjectIdMissing = false;
+      this.IsOpeningForSortingFailed = false;
+      this.IsOpeningForSorting = true;
+      this.projectService.createSort(this.SortProjectId).subscribe((sortSessionId: string) => {
+        if (sortSessionId == null) {
+          this.IsOpeningForSorting = false;
+          this.IsOpeningForSortingFailed = true;
+        }
+        else {
+          this.router.navigateByUrl('/sort/' + sortSessionId);
+          this.IsOpeningForSorting = false;
+        }
+      });
+    }
   }
 
   Create() {
@@ -70,16 +80,21 @@ export class HomeComponent {
   }
 
   Analyze() {
-    this.IsOpeningForAnalysis = true;
-    this.projectService.load(this.AnalyzeProjectId).subscribe((project: Project) => {
-      if (project == null || !project.isSessionZero || !project.isPublished) {
-        this.IsOpeningForAnalysis = false;
-        this.IsOpeningForAnalysisFailed = true;
-      }
-      else {
-        this.router.navigateByUrl('/analyze/' + this.AnalyzeProjectId);
-        this.IsOpeningForAnalysis = false;
-      }
-    });
+    if (this.AnalyzeProjectId == null) {
+      this.IsAnalyzeProjectIdMissing = true;
+    }
+    else {
+      this.IsAnalyzeProjectIdMissing = false;
+      this.projectService.load(this.AnalyzeProjectId).subscribe((project: Project) => {
+        if (project == null || !project.isSessionZero || !project.isPublished) {
+          this.IsOpeningForAnalysis = false;
+          this.IsOpeningForAnalysisFailed = true;
+        }
+        else {
+          this.router.navigateByUrl('/analyze/' + this.AnalyzeProjectId);
+          this.IsOpeningForAnalysis = false;
+        }
+      });
+    }
   }
 }

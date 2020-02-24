@@ -62,12 +62,19 @@ namespace Wolverine.Service
             app.UseHttpsRedirection();
 
             app.UseCors("SiteCorsPolicy");
-            app.UseRouting(routes =>
-            {
-                routes.MapControllers();
-            });
+            //app.UseRouting(routes =>
+            //{
+            //    routes.MapControllers();
+            //});
+            app.UseRouting();
+
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
