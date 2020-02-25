@@ -26,6 +26,12 @@ export class HomeComponent {
   IsOpeningForEditing: boolean;
   IsOpenForEditingFailed: boolean;
 
+  SearchProjectName: string;
+  IsSearchingForProject: boolean;
+  IsSearchedProjectFound: boolean;
+  SearchProject: Project;
+  IsSearchInitialized: boolean;
+
   constructor(private projectService: ProjectService, private router: Router) {
     this.IsCreatingNewProject = false;
     this.IsOpeningForSorting = false;
@@ -40,6 +46,7 @@ export class HomeComponent {
     this.IsOpenForEditingFailed = false;
     this.IsOpeningForEditing = false;
     this.EditProjectId = null;
+    this.IsSearchInitialized = false;
   }
 
   Sort() {
@@ -103,11 +110,11 @@ export class HomeComponent {
             this.IsOpenForEditingFailed = false;
           }
         });
-        if(!this.IsOpenForEditingFailed){
+        if (!this.IsOpenForEditingFailed) {
           this.router.navigateByUrl('/create/' + this.EditProjectId);
         }
         this.IsOpenForEditingFailed = true;
-    });
+      });
 
       console.log("finished checking for existance!");
       // this.router.navigateByUrl('/create/' + this.EditProjectId);
@@ -135,10 +142,28 @@ export class HomeComponent {
     }
   }
 
+  Search() {
+    if (this.SearchProjectName != null) {
+      this.ResetAllFailedFlags();
+      this.IsSearchInitialized = true;
+      this.IsSearchingForProject = true;
+      this.projectService.list().subscribe((projects: Project[]) => {
+        projects.forEach((project) => {
+          if (project.name == this.SearchProjectName) {
+            this.IsSearchedProjectFound = true;
+            this.SearchProject = project;
+          }
+        });
+        this.IsSearchingForProject = false;
+      });
+    }
+  }
+
   ResetAllFailedFlags() {
     this.IsCreateProjectFailed = false;
     this.IsOpenForEditingFailed = false;
     this.IsOpeningForAnalysisFailed = false;
     this.IsOpeningForSortingFailed = false;
+    this.IsSearchInitialized = false;
   }
 }

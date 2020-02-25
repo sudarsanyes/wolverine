@@ -195,6 +195,63 @@
                 </form>
             </div>
 
+
+            <!-- Search -->
+            <div style="margin-bottom: 7em;">
+                <span class="h4 text-dark"><i class="fa fa-search text-primary mr-3"></i>Search</span> <br />
+                <p class="text-muted">Use this option to search for project using name.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="projectName">Project Name</label>
+                        <input [(ngModel)]="SearchProjectName" name="searchProjectName" type="text"
+                            placeholder="Usually a name related to your activity" aria-label="Project Name"
+                            class="form-control">
+                        <small id="searchProjectNameHelp" class="form-text text-muted">If you are the author, then you
+                            must know this.</small>
+                    </div>
+                    <button type="button" class="btn btn-secondary" (click)="Search()">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="align-middle">
+                                        <span *ngIf="!IsSearchingForProject">Search</span>
+                                        <span *ngIf="IsSearchingForProject">Searching...</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div *ngIf="IsSearchingForProject" class="spinner-border spinner-border-sm mx-3"
+                                            role="status">
+                                            <span class="sr-only">Searching...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                    <div *ngIf="IsSearchInitialized && !IsSearchingForProject">
+                    <div *ngIf="IsSearchedProjectFound" class="alert alert-success alert-dismissible fade show my-3"
+                        role="alert">
+                        Project matching this name has been found! <br />
+                        Use the id to Edit, Share, Sort and Analyze. 
+                        <div class="mt-3 mb-3">
+                            <small class="text-muted"><i class="fa fa-file" aria-hidden="true"></i></small>
+                            <small class="text-muted mx-3">A project called <em>{{ SearchProject.name }}</em></small><br />
+                            <small class="text-muted"><i class="fa fa-user-circle" aria-hidden="true"></i></small>
+                            <small class="text-muted mx-3">By <em>{{ SearchProject.author }}</em></small><br />
+                            <small class="text-muted"><i class="fa fa-id-card" aria-hidden="true"></i></small>
+                            <small class="text-muted mx-3">With id <em>{{ SearchProject.id }}</em></small><br />
+                            <small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i></small>
+                            <small class="text-muted mx-3">Created on <em>{{ SearchProject.creationDate | date: 'dd MMMM yyyy, hh:mm a' }}</em></small><br />
+                        </div>
+                    </div>
+                    <div *ngIf="!IsSearchedProjectFound" class="alert alert-danger alert-dismissible fade show my-3"
+                        role="alert">
+                        Project not found!
+                    </div>
+                </div>
+
+                </form>
+            </div>
+
         </div>
 
         <div class="col-md-5">
