@@ -139,7 +139,7 @@
                     <em>{{ ActiveProject.unsortedGroup.description }}</em>
                     <!-- New Card -->
                     <div *ngIf="!ActiveProject.isPublished" class="my-5" style="width: 18rem;">
-                        <form class="alert alert-dark" role="alert">
+                        <form class="alert alert-secondary" role="alert">
                             <strong>New Card</strong>
                             <div class="form-group">
                                 <label for="projectId">Card Title</label>
@@ -163,7 +163,7 @@
                     <div class="mt-5 mb-5">
                         <div *ngFor="let card of ActiveProject.unsortedGroup.cards" class="card mt-3"
                             style="width: 18rem;">
-                            <div class="card-body">
+                            <div id="{{ card.id }}" class="card-body">
                                 <h5>{{ card.title }}</h5>
                                 <p class="card-text small text-muted">order #{{ card.order }}</p>
                                 <p class="card-text">{{ card.description }}</p>
@@ -183,7 +183,7 @@
                         <strong>CLOSED GROUPS</strong>
                     </span>
                     <br />
-                    <em>Participants will sort the cards in to these groups.</em>
+                    <em>Participants will sort the cards in to these groups. So you need at least two of these.</em>
                     <!-- New Group -->
                     <div *ngIf="!ActiveProject.isPublished" class="my-5" style="width: 18rem;">
                         <form class="alert alert-secondary" role="alert">
@@ -209,7 +209,7 @@
                     <!-- SortedGroups -->
                     <div class="mt-5">
                         <div *ngFor="let group of ActiveProject.defaultGroups" class="card mb-3 bg-light">
-                            <div class="card-body">
+                            <div id="{{ group.id }}" class="card-body">
                                 <h5 class="card-title">{{ group.title }}</h5>
                                 <p class="card-text">
                                     <small class="text-muted">{{ group.description }}</small>

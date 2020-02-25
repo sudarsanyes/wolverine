@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, AfterViewChecked } from '@angular/core';
 import { ProjectService } from '../Services/project.service';
 import { Group, Card, Guid, SimplifiedProject } from '../Contracts/Contracts';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ import { delay } from 'q';
     selector: 'create',
     templateUrl: './create.component.html'
 })
-export class CreateComponent {
+export class CreateComponent implements AfterViewChecked {
 
     ActiveProject: SimplifiedProject;
     ID: string;
@@ -27,6 +27,7 @@ export class CreateComponent {
     IsUnlocking: boolean;
     IsUnlockingSuccessful: boolean;
 
+    idOfElementAdded: string;
 
     constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute, private clipboardService: ClipboardService, private confirmGuard: ConfirmationGuard) {
         this.NewCard = Card.getDefault();
@@ -38,6 +39,13 @@ export class CreateComponent {
         this.projectService.load(this.ID).subscribe((project: SimplifiedProject) => {
             this.ActiveProject = project;
         });
+    }
+
+    ngAfterViewChecked() {
+        if (this.idOfElementAdded != null) {
+            document.getElementById(this.idOfElementAdded).scrollIntoView({ block: 'end', behavior: 'smooth' });
+            this.idOfElementAdded = null;
+        }
     }
 
     onEditCard(card: Card) {
@@ -57,6 +65,7 @@ export class CreateComponent {
     }
 
     onAddCard() {
+        this.idOfElementAdded = this.NewCard.id;
         this.ActiveProject.unsortedGroup.cards.push(this.NewCard);
         this.NewCard = Card.getDefault();
         this.IsDirty = true;
@@ -79,6 +88,7 @@ export class CreateComponent {
     }
 
     onAddGroup() {
+        this.idOfElementAdded = this.NewGroup.id;
         this.ActiveProject.defaultGroups.push(this.NewGroup);
         this.NewGroup = Group.getDefault();
         this.NewGroup.isUnsorted = false;
@@ -117,15 +127,15 @@ export class CreateComponent {
 
     onPublish() {
         this.IsPublishing = true;
-        var userChoiceForPublishing = confirm("Remember: once published, you will not be able to add or remove cards. Are you sure you want to publish the project for participants to sort?");
+        var userChoiceForPublishing = confirm("Remember: once published, you will not be able to add or remove cards. Are you sure you want to publish the project for the participants to sort?");
         if (userChoiceForPublishing) {
-            this.onShareLink();
             this.ActiveProject.isPublished = true;
             console.log(this.ActiveProject);
             var response = this.projectService.save(this.ActiveProject);
             response.subscribe((data: boolean) => {
                 this.IsPublishing = false;
                 this.IsPublishingSuccessful = data;
+                this.onEmailLink();
             });
         }
         this.IsPublishing = false;
@@ -133,7 +143,13 @@ export class CreateComponent {
 
     onShareLink() {
         this.clipboardService.copyFromContent(this.ActiveProject.id);
-        alert("Id of the project has been copied to your clipboard. Share it with your participant for sorting, or use it to edit in future.");
+        alert("The Id of the project has been copied to your clipboard. Press Ctrl + V to retrieve it.");
+    }
+
+    onEmailLink() {
+        var mailText = "mailto:abc@abc.com?subject=" + this.ActiveProject.name + " - is ready for sorting&body=https://sudarsanyes.github.io/wolverine/sort/" + this.ActiveProject.id;
+        console.log(mailText);
+        window.location.href = mailText;
     }
 
     onLock() {
