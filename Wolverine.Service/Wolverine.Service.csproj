@@ -18,4 +18,10 @@
     <ProjectReference Include="..\Wolverine.Core\Wolverine.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Wolverine.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

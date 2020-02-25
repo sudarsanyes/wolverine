@@ -5,7 +5,7 @@
                 <img src="./assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3 mt-2" width="32"
                     height="32" alt="Wolverine by Yi Chen from the Noun Project">
                 <div class="media-body">
-                    <a class="navbar-brand text-primary" href="./">Wolverine.Angular</a>
+                    <a class="navbar-brand text-primary" href="./">Wolverine</a>
                 </div>
             </div>
         </div>
@@ -15,7 +15,7 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td class="align-middle">Publish</td>
+                                <td class="align-middle">Publish your sorting</td>
                                 <td class="align-middle">
                                     <div *ngIf="IsSaving" class="spinner-border spinner-border-sm mx-3" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -38,15 +38,21 @@
 <div class="container mt-5">
 
     <div *ngIf="ActiveProject">
-        <span class="h4">{{ ActiveProject.name }}</span>
+        <span class="h4 display-4">{{ ActiveProject.name }}</span>
         <div class="mt-3 mb-3">
-            <small class="text-muted">This project is created by: <mark>{{ ActiveProject.author }}</mark> on
-                {{ ActiveProject.creationDate | date: 'dd MMM yyyy' }}</small><br />
+            <small class="text-muted"><i class="fa fa-user-circle" aria-hidden="true"></i></small>
+            <small class="text-muted mx-3">A project by <em>{{ ActiveProject.author }}</em></small><br />
+            <small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i></small>
+            <small class="text-muted mx-3">Created on <em>{{ ActiveProject.creationDate | date: 'dd MMMM yyyy, hh:mm a' }}</em></small><br />
+            <small class="text-muted"><i class="fa fa-bookmark" aria-hidden="true"></i>
+            <span class="mx-3">You can bookmark this <a href='./create/{{ ActiveProject.id }}'>link</a> and use it to edit this project anytime.</span> 
+            </small>
         </div>
+        <hr />
 
         <div *ngIf="ActiveProject.isPublished" class="alert alert-success mt-5" role="alert">
-            <h4 class="alert-heading">Thanks {{ ActiveSortSession.participant }}!</h4>
-            Thank you for participating in this activity. Your way of sorting has been recorded successfully. The author will now be able to see how you have sorted the cards. 
+            <h4 class="alert-heading">Thank you {{ ActiveSortSession.participant }}!</h4>
+            Thanks for participating in this activity. Your sort order has been recorded successfully and it will further be analyzed by the author to finalize the information architecture. 
         </div>
 
         <div *ngIf="!ActiveProject.isPublished">

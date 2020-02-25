@@ -119,6 +119,7 @@ export class CreateComponent {
         this.IsPublishing = true;
         var userChoiceForPublishing = confirm("Remember: once published, you will not be able to add or remove cards. Are you sure you want to publish the project for participants to sort?");
         if (userChoiceForPublishing) {
+            this.onShareLink();
             this.ActiveProject.isPublished = true;
             console.log(this.ActiveProject);
             var response = this.projectService.save(this.ActiveProject);

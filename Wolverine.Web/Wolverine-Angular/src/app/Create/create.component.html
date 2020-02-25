@@ -5,7 +5,7 @@
                 <img src="./assets/noun_Wolverine_68964_colored.png" class="align-self-start mr-3 mt-2" width="32"
                     height="32" alt="Wolverine by Yi Chen from the Noun Project">
                 <div class="media-body">
-                    <a class="navbar-brand text-primary" href="./">Wolverine.Angular</a>
+                    <a class="navbar-brand text-primary" href="./">Wolverine</a>
                 </div>
             </div>
         </div>
@@ -96,10 +96,13 @@
 
             <span class="h4 display-4">{{ ActiveProject.name }}</span>
             <div class="mt-3 mb-3">
-                <small class="text-muted">{{ ActiveProject.author }}</small> /
-                <small
-                    class="text-muted">{{ ActiveProject.creationDate | date: 'dd MMM yyyy, hh:mm:ss a' }}</small><br />
-                <button class="btn btn-link px-0" (click)="onShareLink()"><small>Share</small></button>
+                <small class="text-muted"><i class="fa fa-user-circle" aria-hidden="true"></i></small>
+                <small class="text-muted mx-3">A project by <em>{{ ActiveProject.author }}</em></small><br />
+                <small class="text-muted"><i class="fa fa-calendar" aria-hidden="true"></i></small>
+                <small class="text-muted mx-3">Created on <em>{{ ActiveProject.creationDate | date: 'dd MMMM yyyy, hh:mm a' }}</em></small><br />
+                <small class="text-muted"><i class="fa fa-bookmark" aria-hidden="true"></i>
+                <span class="mx-3">You can bookmark this <a href='./create/{{ ActiveProject.id }}'>link</a> and use it to edit this project anytime.</span> 
+                </small>
             </div>
             <hr />
 
@@ -112,10 +115,12 @@
                         <small class="text-muted mx-1">e.g: New, Open, Cut, Copy, Paste</small>
                     </li>
                     <li>Create
-                        <em>Default Groups.</em>
+                        <em>Closed Groups.</em>
                         <small class="text-muted mx-1">e.g: File, Edit, Format</small>
                     </li>
-                    <li>Share the link with participants.</li>
+                    <li class="font-italic">You will need <strong>at least two groups </strong>for the sorting to make sense!</li>
+                    <li>Publish the project for sorting.</li>
+                    <li>Share the project id with your participants.</li>
                     <li>Let the participant sort Cards from
                         <em>Unsorted Group</em> to the respective
                         <em>Groups.</em>
@@ -133,20 +138,27 @@
                     <br />
                     <em>{{ ActiveProject.unsortedGroup.description }}</em>
                     <!-- New Card -->
-                    <div *ngIf="!ActiveProject.isPublished" class="card mt-5 mb-3" style="width: 18rem;">
-                        <div class="card-header">New Card</div>
-                        <div class="card-body">
-                            <input type="text" [(ngModel)]="NewCard.title"
-                                class="form-control field-with-default-value text-black bg-white" placeholder="Title">
-                            <input type="number" [(ngModel)]="NewCard.order" min="0" max="100" style="width: 60px;"
-                                class="form-control field-with-default-value text-black bg-white" placeholder="Order"
-                                hidden>
-                            <input type="text" [(ngModel)]="NewCard.description"
-                                class="form-control field-with-default-value text-black bg-white" placeholder="Title">
-                            <button type="button" class="btn btn-primary my-3" (click)="onAddCard()">Add this Card
-                            </button>
-                        </div>
+                    <div *ngIf="!ActiveProject.isPublished" class="my-5" style="width: 18rem;">
+                        <form class="alert alert-dark" role="alert">
+                            <strong>New Card</strong>
+                            <div class="form-group">
+                                <label for="projectId">Card Title</label>
+                                <input [(ngModel)]="NewCard.title" name="cardTitle" type="text"
+                                    placeholder="Card Title" aria-label="Card Title"
+                                    class="form-control form-control-sm">
+                                <small id="cardTitleHelp" class="form-text text-muted">These are the items that participants will sort under different groups</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="projectId">Card Description</label>
+                                <input [(ngModel)]="NewCard.description" name="cardDescription" type="text"
+                                    placeholder="Card Description" aria-label="Card Description"
+                                    class="form-control form-control-sm">
+                                <small id="cardDescriptionHelp" class="form-text text-muted">A short description about the item</small>
+                            </div>
+                            <button type="button" class="btn btn-primary my-3" (click)="onAddCard()">Add this Card</button>
+                        </form>
                     </div>
+
                     <!-- UnsortedGroup > Cards -->
                     <div class="mt-5 mb-5">
                         <div *ngFor="let card of ActiveProject.unsortedGroup.cards" class="card mt-3"
@@ -168,21 +180,31 @@
             <div class="col-7">
                 <div>
                     <span class="h6 .text-secondary">
-                        <strong>DEFAULT GROUPS</strong>
+                        <strong>CLOSED GROUPS</strong>
                     </span>
                     <br />
                     <em>Participants will sort the cards in to these groups.</em>
                     <!-- New Group -->
-                    <div *ngIf="!ActiveProject.isPublished" class="card bg-light mt-5 mb-3" style="width: 18rem;">
-                        <div class="card-header">New Group</div>
-                        <div class="card-body">
-                            <input type="text" [(ngModel)]="NewGroup.title"
-                                class="form-control field-with-default-value bg-light" placeholder="Title">
-                            <input type="text" [(ngModel)]="NewGroup.description"
-                                class="form-control field-with-default-value bg-light" placeholder="Title">
-                            <button type="button" class="btn btn-secondary my-3" (click)="onAddGroup()">Add this Group
+                    <div *ngIf="!ActiveProject.isPublished" class="my-5" style="width: 18rem;">
+                        <form class="alert alert-secondary" role="alert">
+                            <strong>New Group</strong>
+                            <div class="form-group">
+                                <label for="projectId">Group Title</label>
+                                <input [(ngModel)]="NewGroup.title" name="groupTitle" type="text"
+                                    placeholder="Group Title" aria-label="Group Title"
+                                    class="form-control form-control-sm">
+                                <small id="groupTitleHelp" class="form-text text-muted">This would be a group where participant will place a card in to.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="projectId">Group Description</label>
+                                <input [(ngModel)]="NewGroup.description" name="groupDescription" type="text"
+                                    placeholder="Group Description" aria-label="Group Description"
+                                    class="form-control form-control-sm">
+                                <small id="groupDescriptionHelp" class="form-text text-muted">A short description about the group</small>
+                            </div>
+                            <button type="button" class="btn btn-secondary my-3" (click)="onAddGroup()">Create this Group
                             </button>
-                        </div>
+                        </form>
                     </div>
                     <!-- SortedGroups -->
                     <div class="mt-5">

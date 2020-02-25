@@ -41,4 +41,8 @@ export class ProjectService {
     public loadResult(id: string) {
         return this.http.get("https://wolverineservice.azurewebsites.net/api/sessions/analyze/" + id);
     }
+
+    public list() {
+        return this.http.get("https://wolverineservice.azurewebsites.net/api/projects/list");
+    }
 }

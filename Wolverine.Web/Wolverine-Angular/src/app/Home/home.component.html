@@ -39,8 +39,8 @@
                     </div>
                     <div *ngIf="IsCreateProjectFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        <strong>Project Name</strong> and <strong>Author</strong> cannot be empty. Make sure that you've
-                        updated them.
+                        <strong>Project Name</strong> and <strong>Author</strong> cannot be empty. <br />
+                        You will need to specify a name for the project (and idenfiy yourself) in order to create it. 
                     </div>
                     <button type="button" class="btn btn-secondary" (click)="Create()">
                         <table>
@@ -60,12 +60,53 @@
                             </tbody>
                         </table>
                     </button>
+                    <button type="button" class="btn btn-link mx-3 px-0" (click)="isCollapsed = !isCollapsed"
+                            [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+                        Open Existing
+                    </button>
+
                 </form>
+
+                <small>
+                    <div id="collapseExample" [ngbCollapse]="isCollapsed" class="alert alert-secondary my-3">
+                        <form>
+                            <div class="form-group">
+                                <label for="projectName">Project Id</label>
+                                <input [(ngModel)]="EditProjectId" name="editProjectId" type="text" class="form-control"
+                                    aria-describedby="Project Id" placeholder="Project Id">
+                                <small id="openProjectHelp" class="form-text text-muted">You can edit already created projects if you know its id.</small>
+                            </div>
+                            <div *ngIf="IsOpenForEditingFailed" class="alert alert-danger alert-dismissible fade show my-3"
+                                role="alert">
+                                <strong>Project Id</strong> not found. <br />
+                                Are you sure this project exists?  
+                            </div>
+                            <button type="button" class="btn btn-secondary" (click)="Open()">
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="align-middle">
+                                                <span *ngIf="!IsOpeningForEditing">Open Existing</span>
+                                                <span *ngIf="IsOpeningForEditing">Opening</span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <div *ngIf="IsOpeningForEditing" class="spinner-border spinner-border-sm mx-3"
+                                                    role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </button>
+                        </form>
+                    </div>
+                </small>
             </div>
 
             <!-- Sort -->
             <div style="margin-bottom: 7em;">
-                <span class="h4 text-dark"><i class="far fa-clone text-primary mr-3"></i>Participate</span> <br />
+                <span class="h4 text-dark"><i class="far fa-clone text-primary mr-3"></i>Sort</span> <br />
                 <p class="text-muted">Use this option as a participant to sort cards in an existing project.</p>
                 <form>
                     <div class="form-group">
@@ -102,8 +143,8 @@
 
                     <div *ngIf="IsOpeningForSortingFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Unable to find the project. Make sure that you are using the correct <strong>Project
-                            Id</strong>.
+                        Unable to find the project with the Id you have mentioned. <br />
+                        Make sure that you are using the correct <strong>Project Id</strong>.
                     </div>
 
                 </form>
@@ -127,7 +168,7 @@
                             <tbody>
                                 <tr>
                                     <td class="align-middle">
-                                        <span *ngIf="!IsOpeningForAnalysis">Analyze</span>
+                                        <span *ngIf="!IsOpeningForAnalysis">Analyze Sort</span>
                                         <span *ngIf="IsOpeningForAnalysis">Opening...</span>
                                     </td>
                                     <td class="align-middle">
@@ -142,13 +183,13 @@
                     </button>
                     <div *ngIf="IsAnalyzeProjectIdMissing" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        <strong>Project ID</strong> cannot be empty. Which project would you like to analyze? <br />
-                        Contact the <strong>Project Author</strong> and he should be able to help you out!
+                        <strong>Project ID</strong> cannot be empty. <br />
+                        Which project would you like to analyze? Contact the <strong>Project Author</strong> and he should be able to help you out!
                     </div>
                     <div *ngIf="IsOpeningForAnalysisFailed" class="alert alert-danger alert-dismissible fade show my-3"
                         role="alert">
-                        Unable to find the project. Make sure that you are using the correct <strong>Project
-                            Id</strong>.
+                        Unable to find the project with the Id you have mentioned. <br />
+                        Make sure that you are using the correct <strong>Project Id</strong>.
                     </div>
 
                 </form>

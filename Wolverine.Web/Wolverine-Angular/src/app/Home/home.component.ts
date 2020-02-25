@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ɵConsole } from '@angular/core';
 import { ProjectService } from '../Services/project.service';
 import { Project, Group, Card, Guid } from '../Contracts/Contracts';
 import { Router } from '@angular/router';
@@ -12,16 +12,19 @@ export class HomeComponent {
   SortProjectId: string;
   AnalyzeProjectId: string;
   NewProject: Project;
-  EditProjectId: string;
   IsCreatingNewProject: boolean;
   IsOpeningForSorting: boolean;
   IsOpeningForAnalysis: boolean;
   IsOpeningForSortingFailed: boolean;
-  IsOpeningExistingProject: boolean;
   IsCreateProjectFailed: boolean;
   IsOpeningForAnalysisFailed: boolean;
   IsSortProjectIdMissing: boolean;
   IsAnalyzeProjectIdMissing: boolean;
+  isCollapsed: boolean;
+
+  EditProjectId: string;
+  IsOpeningForEditing: boolean;
+  IsOpenForEditingFailed: boolean;
 
   constructor(private projectService: ProjectService, private router: Router) {
     this.IsCreatingNewProject = false;
@@ -29,14 +32,18 @@ export class HomeComponent {
     this.IsOpeningForAnalysis = false;
     this.IsOpeningForSortingFailed = false;
     this.IsOpeningForAnalysisFailed = false;
-    this.IsOpeningExistingProject = false;
     this.IsSortProjectIdMissing = false;
     this.IsAnalyzeProjectIdMissing = false;
     this.NewProject = new Project();
     this.NewProject.id = Guid.newGuid();
+    this.isCollapsed = true;
+    this.IsOpenForEditingFailed = false;
+    this.IsOpeningForEditing = false;
+    this.EditProjectId = null;
   }
 
   Sort() {
+    this.ResetAllFailedFlags();
     if (this.SortProjectId == null) {
       this.IsSortProjectIdMissing = true;
     }
@@ -58,6 +65,7 @@ export class HomeComponent {
   }
 
   Create() {
+    this.ResetAllFailedFlags();
     if (this.NewProject.name == null || this.NewProject.author == null) {
       console.log("missing fields");
       this.IsCreateProjectFailed = true;
@@ -74,12 +82,41 @@ export class HomeComponent {
   }
 
   Open() {
-    this.IsOpeningExistingProject = true;
-    this.router.navigateByUrl('/create/' + this.EditProjectId);
-    this.IsCreatingNewProject = false;
+    this.ResetAllFailedFlags();
+    this.IsCreateProjectFailed = false;
+    if (this.EditProjectId == null) {
+      console.log("missing fields");
+      this.IsOpenForEditingFailed = true;
+    }
+    else {
+      this.IsOpenForEditingFailed = true;
+      this.IsOpeningForEditing = true;
+
+      console.log("checking for existance...");
+
+      this.projectService.list().subscribe((projects: Project[]) => {
+        console.log(this.EditProjectId);
+        console.log(projects);
+        projects.forEach((project) => {
+          console.log(project.id);
+          if (project.id == this.EditProjectId) {
+            this.IsOpenForEditingFailed = false;
+          }
+        });
+        if(!this.IsOpenForEditingFailed){
+          this.router.navigateByUrl('/create/' + this.EditProjectId);
+        }
+        this.IsOpenForEditingFailed = true;
+    });
+
+      console.log("finished checking for existance!");
+      // this.router.navigateByUrl('/create/' + this.EditProjectId);
+      this.IsOpeningForEditing = false;
+    }
   }
 
   Analyze() {
+    this.ResetAllFailedFlags();
     if (this.AnalyzeProjectId == null) {
       this.IsAnalyzeProjectIdMissing = true;
     }
@@ -96,5 +133,12 @@ export class HomeComponent {
         }
       });
     }
+  }
+
+  ResetAllFailedFlags() {
+    this.IsCreateProjectFailed = false;
+    this.IsOpenForEditingFailed = false;
+    this.IsOpeningForAnalysisFailed = false;
+    this.IsOpeningForSortingFailed = false;
   }
 }
